@@ -20,14 +20,14 @@ int main(int argc, char* argv[])
 {
     const int WIDTH = 640;
     const int HEIGHT = 480;
-    SDL_Window* window = NULL;
-    SDL_Renderer* renderer = NULL;
+    SDL_Window* window = NULL; //window init
+    SDL_Renderer* renderer = NULL; //renderer init - to draw things
 
     SDL_Surface* screen; //window surface
-    //SDL_Surface* image; //load image
+    SDL_Surface* image; //load image
 
     SDL_Init(SDL_INIT_VIDEO);
-
+    //Open GL init
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
@@ -36,12 +36,29 @@ int main(int argc, char* argv[])
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
 
-    window = SDL_CreateWindow("SDL2 Test", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+    window = SDL_CreateWindow("Testing", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    SDL_RenderPresent(renderer);
+
     screen = SDL_GetWindowSurface(window);
-    //image = SDL_LoadBMP("resource//cat-owl.bmp");
-    //SDL_BlitSurface(image, NULL, screen, NULL);
-    //SDL_FreeSurface(image);
+    image = SDL_LoadBMP("resource//cat-owl.bmp");
+
+    //create a rect
+    SDL_Rect rectangle;
+    rectangle.x = 50;
+    rectangle.y = 75;
+    rectangle.w = 200;
+    rectangle.h = 200;
+    SDL_Rect rectangle2;
+    rectangle2.x = 50;
+    rectangle2.y = 75;
+    rectangle2.w = 200;
+    rectangle2.h = 200;
+    
+    //cope a texture
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, image);
+    SDL_FreeSurface(image);
 
     SDL_GLContext context;
     context = SDL_GL_CreateContext(window);
@@ -60,23 +77,42 @@ int main(int argc, char* argv[])
         int x, y;
         Uint32 button;
         button = SDL_GetMouseState(&x, &y);
-
+        
         SDL_Event event;
         while (SDL_PollEvent(&event))
         {
             if (event.type == SDL_QUIT) isRunning = false;
-            if (event.button.button == SDL_BUTTON_LEFT)
+            if (event.type == SDL_MOUSEMOTION)
             {
-                setPixel(screen, x, y, 0, 0, 255);
-                SDL_UpdateWindowSurface(window);
+                rectangle2.x = event.motion.x;
+                rectangle2.y = event.motion.y;
             }
-            if (event.button.button == SDL_BUTTON_MIDDLE)
+            if (event.type == SDL_MOUSEBUTTONDOWN)
             {
-                setPixel(screen, x, y, 255, 0, 0);
-                SDL_UpdateWindowSurface(window);
+                if (event.button.button == SDL_BUTTON_LEFT)
+                {
+                    SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_ADD);
+                }
+                if (event.button.button == SDL_BUTTON_RIGHT)
+                {
+                    SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+                }
+                if (event.button.button == SDL_BUTTON_MIDDLE    )
+                {
+                    SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_MOD);
+                }
+            }
+            else
+            {
+                SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_NONE);
             }
         }
+        //draw sth
+        SDL_RenderClear(renderer);
+        SDL_RenderCopy(renderer, texture, NULL, &rectangle);
+        SDL_RenderCopy(renderer, texture, NULL, &rectangle2);
     }
+    SDL_DestroyTexture(texture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
