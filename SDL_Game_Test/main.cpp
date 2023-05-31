@@ -38,9 +38,6 @@ int main(int argc, char* argv[])
 
     window = SDL_CreateWindow("Testing", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-    SDL_RenderPresent(renderer);
-
     screen = SDL_GetWindowSurface(window);
     image = SDL_LoadBMP("resource//cat-owl.bmp");
 
@@ -97,7 +94,7 @@ int main(int argc, char* argv[])
                 {
                     SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
                 }
-                if (event.button.button == SDL_BUTTON_MIDDLE    )
+                if (event.button.button == SDL_BUTTON_MIDDLE)
                 {
                     SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_MOD);
                 }
@@ -111,6 +108,7 @@ int main(int argc, char* argv[])
         SDL_RenderClear(renderer);
         SDL_RenderCopy(renderer, texture, NULL, &rectangle);
         SDL_RenderCopy(renderer, texture, NULL, &rectangle2);
+        SDL_RenderPresent(renderer);
     }
     SDL_DestroyTexture(texture);
     SDL_DestroyRenderer(renderer);
