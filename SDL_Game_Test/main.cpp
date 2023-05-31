@@ -1,9 +1,9 @@
-#include "SDL.h"
-#include "glad/include/glad/glad.h"
-#include <iostream>
-#include <Windows.h>
+#include "Game.h"
 
 using namespace std;
+
+
+Game game;
 
 void setPixel(SDL_Surface* screen, int x, int y, uint8_t r, uint8_t g, uint8_t b)
 {
@@ -18,12 +18,17 @@ void setPixel(SDL_Surface* screen, int x, int y, uint8_t r, uint8_t g, uint8_t b
 
 int main(int argc, char* argv[])
 {
-    const int WIDTH = 640;
-    const int HEIGHT = 480;
-    SDL_Window* window = NULL; //window init
-    SDL_Renderer* renderer = NULL; //renderer init - to draw things
+    game.init("Testing", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT);
+    while (game.running())
+    {
+        game.handleEvent();
+        game.update();
+        game.render();
 
-    SDL_Surface* screen; //window surface
+    }
+
+    game.clean();
+    /*SDL_Surface* screen; //window surface
     SDL_Surface* image; //load image
 
     SDL_Init(SDL_INIT_VIDEO);
@@ -113,6 +118,6 @@ int main(int argc, char* argv[])
     SDL_DestroyTexture(texture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
-    SDL_Quit();
+    SDL_Quit();*/
     return 0;
 }

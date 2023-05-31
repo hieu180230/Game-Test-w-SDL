@@ -17,6 +17,7 @@
   <ItemGroup>
     <Library Include="SDL2.lib" />
     <Library Include="SDL2main.lib" />
+    <Library Include="E:\SDL2-2.26.5\SDL2_image-2.0.1\lib\x64\SDL2_image.lib" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
