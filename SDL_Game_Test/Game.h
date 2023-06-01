@@ -3,6 +3,7 @@
 #include "SDL_image.h"
 #include "glad/include/glad/glad.h"
 #include <iostream>
+#define ground 320
 using namespace std;
 
 const int WIDTH = 640;
