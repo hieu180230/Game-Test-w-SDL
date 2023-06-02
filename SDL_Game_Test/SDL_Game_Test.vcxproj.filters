@@ -46,7 +46,10 @@
     <ClInclude Include="Object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Entiti&amp;Component.h">
+    <ClInclude Include="Entity&amp;Component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Components.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

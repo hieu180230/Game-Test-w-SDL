@@ -2,12 +2,18 @@
 #include "SDL.h"
 #include "TextureManage.h"
 #include "Object.h"
+#include "Entity&Component.h"
+#include "Components.h"
 
 using namespace std;
 
 SDL_Renderer* Game::renderer = nullptr;
 
-Object *person, *crouch_person;
+Manager manager;
+auto& newPlayer(manager.addEntity());
+
+Object* person;
+Object* crouch_person;
 
 int step = 0, jump = ground;
 bool crouch = false;
@@ -37,7 +43,11 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height)
 	else isRunning = false;
 	person = new Object("resource//person.png", 0, 340);
 	crouch_person = new Object("resource//crouch_person.png", person->getX(), person->getY());
+
+	newPlayer.addComponent<PositionComponent>();
+	newPlayer.getComponent<PositionComponent>().setPos(500, 500);
 }
+
 
 void Game::handleEvent()
 {
@@ -78,6 +88,8 @@ void Game::update()
 	crouch_person->setX(step);
 	person->Update();
 	crouch_person->Update();
+	manager.update();
+	cout << newPlayer.getComponent<PositionComponent>().getX() << " -- " << newPlayer.getComponent<PositionComponent>().getY() << endl;
 }
 
 void Game::render()
