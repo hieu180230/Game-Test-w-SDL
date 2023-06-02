@@ -12,10 +12,9 @@ const int HEIGHT = 480;
 class Game
 {
 private:
-	int count = 0;
 	bool isRunning = false;
 	SDL_Window* window = NULL;
-	SDL_Renderer* renderer = NULL;
+
 public:
 	Game();
 	~Game();
@@ -25,7 +24,8 @@ public:
 	void update();
 	void render();
 	void clean();
-
 	bool running();
+
+	static SDL_Renderer* renderer;
 };
 

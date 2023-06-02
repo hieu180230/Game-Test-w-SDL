@@ -1,9 +1,13 @@
 #include "Game.h"
 #include "SDL.h"
+#include "TextureManage.h"
+#include "Object.h"
+
 using namespace std;
 
-SDL_Texture* person, *crouch_person;
-SDL_Rect srcR, destR;
+SDL_Renderer* Game::renderer = nullptr;
+
+Object *person, *crouch_person;
 
 int step = 0, jump = ground;
 bool crouch = false;
@@ -31,12 +35,8 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height)
 
 	}
 	else isRunning = false;
-	SDL_Surface* surface = IMG_Load("resource//person.png");
-	person = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
-	surface = IMG_Load("resource//crouch_person.png");
-	crouch_person = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
+	person = new Object("resource//person.png", 0, 340);
+	crouch_person = new Object("resource//crouch_person.png", person->getX(), person->getY());
 }
 
 void Game::handleEvent()
@@ -53,19 +53,19 @@ void Game::handleEvent()
 	case SDL_KEYDOWN:
 	{
 		const Uint8* state = SDL_GetKeyboardState(NULL);
-		if (state[SDL_SCANCODE_RIGHT]) step += 4;
-		if (state[SDL_SCANCODE_LEFT]) step -= 4;
+		if (state[SDL_SCANCODE_RIGHT]) step += 2;
+		if (state[SDL_SCANCODE_LEFT]) step -= 2;
 		if (state[SDL_SCANCODE_DOWN])
 		{
 			crouch = true;
 		}
-		if (state[SDL_SCANCODE_UP])
+		break;
+	}
+	case SDL_KEYUP:
+	{
+		if (SDLK_DOWN == event.key.keysym.sym)
 		{
-			if (crouch == true)
-			{
-				crouch = false;
-				break;
-			}
+			crouch = false;
 		}
 		break;
 	}
@@ -74,21 +74,10 @@ void Game::handleEvent()
 
 void Game::update()
 {
-	count++;
-	destR.h = 64;
-	destR.w = 64;
-	destR.y = jump;
-	destR.x = step;
-	if (step > 640)
-	{
-		step = -10;
-	}
-	if (step < -10)
-	{
-		step = 640;
-	}
-
-	cout << count << endl;
+	person->setX(step);
+	crouch_person->setX(step);
+	person->Update();
+	crouch_person->Update();
 }
 
 void Game::render()
@@ -97,9 +86,9 @@ void Game::render()
 	SDL_RenderClear(renderer);
 	// add texture
 	if (crouch == true) {
-		SDL_RenderCopy(renderer, crouch_person, NULL, &destR); 
+		crouch_person->Render();
 	}
-	else SDL_RenderCopy(renderer, person, NULL, &destR);
+	else person->Render();
 	SDL_RenderPresent(renderer);
 }
 
