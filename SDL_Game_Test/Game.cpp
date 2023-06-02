@@ -1,22 +1,16 @@
 #include "Game.h"
 #include "SDL.h"
 #include "TextureManage.h"
-#include "Object.h"
-#include "Entity&Component.h"
-#include "Components.h"
+#include "Entity&Component/Components.h"
 
 using namespace std;
 
 SDL_Renderer* Game::renderer = nullptr;
-
 Manager manager;
-auto& newPlayer(manager.addEntity());
+auto& person(manager.addEntity());
 
-Object* person;
-Object* crouch_person;
 
 int step = 0, jump = ground;
-bool crouch = false;
 
 Game::Game() {};
 Game::~Game() {};
@@ -41,11 +35,10 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height)
 
 	}
 	else isRunning = false;
-	person = new Object("resource//person.png", 0, 340);
-	crouch_person = new Object("resource//crouch_person.png", person->getX(), person->getY());
 
-	newPlayer.addComponent<PositionComponent>();
-	newPlayer.getComponent<PositionComponent>().setPos(500, 500);
+	person.addComponent<PositionComponent>();
+	person.addComponent<SpriteComponent>("resource//person.png");
+
 }
 
 
@@ -60,47 +53,20 @@ void Game::handleEvent()
 		isRunning = false;
 		break;
 	}
-	case SDL_KEYDOWN:
-	{
-		const Uint8* state = SDL_GetKeyboardState(NULL);
-		if (state[SDL_SCANCODE_RIGHT]) step += 2;
-		if (state[SDL_SCANCODE_LEFT]) step -= 2;
-		if (state[SDL_SCANCODE_DOWN])
-		{
-			crouch = true;
-		}
-		break;
-	}
-	case SDL_KEYUP:
-	{
-		if (SDLK_DOWN == event.key.keysym.sym)
-		{
-			crouch = false;
-		}
-		break;
-	}
 	}
 }
 
 void Game::update()
 {
-	person->setX(step);
-	crouch_person->setX(step);
-	person->Update();
-	crouch_person->Update();
+	manager.refresh();
 	manager.update();
-	cout << newPlayer.getComponent<PositionComponent>().getX() << " -- " << newPlayer.getComponent<PositionComponent>().getY() << endl;
 }
 
 void Game::render()
 {
-	int crouchtime = 0;
 	SDL_RenderClear(renderer);
 	// add texture
-	if (crouch == true) {
-		crouch_person->Render();
-	}
-	else person->Render();
+	manager.draw();
 	SDL_RenderPresent(renderer);
 }
 

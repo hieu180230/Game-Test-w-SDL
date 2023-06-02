@@ -22,7 +22,7 @@ inline ComponentID getComponentTypeID()
 
 template <typename T> inline ComponentID getComponentTypeID() noexcept
 {
-	static ComponentID typeID = getComponentTypeID();
+	static ComponentID typeID{ getComponentTypeID() };
 	return typeID;
 }
 
@@ -54,10 +54,10 @@ public:
 	void update()
 	{
 		for (auto& c : components) c->update();
-		for (auto& c : components) c->draw();
 	}
 	void draw() 
 	{
+		for (auto& c : components) c->draw();
 	}
 	bool isActive() { return active; }
 	void destroy() { active = false; }
@@ -72,7 +72,7 @@ public:
 	template <typename T, typename... TArgs>
 	T& addComponent(TArgs&&... mArgs)
 	{
-		T* c(new T(forward<TArgs>()(mArgs)...));
+		T* c(new T(forward<TArgs>(mArgs)...));
 		c->entity = this;
 		unique_ptr<Component> uPtr{ c };
 		components.emplace_back(move(uPtr));
@@ -108,10 +108,12 @@ public:
 
 	void refresh()
 	{
-		entities.erase(remove_if(begin(entities), end(entities), [](const unique_ptr<Entity>& mEntity)
+		entities.erase(remove_if(begin(entities), end(entities), 
+			[](const unique_ptr<Entity>& mEntity)
 			{
 				return !mEntity->isActive();
-			}), end(entities));
+			}), 
+			end(entities));
 	}
 
 	Entity& addEntity()

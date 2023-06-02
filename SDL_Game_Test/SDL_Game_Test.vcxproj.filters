@@ -46,10 +46,16 @@
     <ClInclude Include="Object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Entity&amp;Component.h">
+    <ClInclude Include="SpriteComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Components.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity&amp;Component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PositionComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
