@@ -36,7 +36,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height)
 	}
 	else isRunning = false;
 
-	person.addComponent<PositionComponent>();
+	person.addComponent<TransformComponent>();
 	person.addComponent<SpriteComponent>("resource//person.png");
 
 }

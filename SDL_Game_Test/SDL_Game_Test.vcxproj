@@ -149,12 +149,12 @@
     <ClCompile Include="TextureManage.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Components.h" />
-    <ClInclude Include="Entity&amp;Component.h" />
+    <ClInclude Include="Entity&amp;Component\Components.h" />
+    <ClInclude Include="Entity&amp;Component\Entity&amp;Component.h" />
+    <ClInclude Include="Entity&amp;Component\TransformComponent.h" />
+    <ClInclude Include="Entity&amp;Component\SpriteComponent.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Object.h" />
-    <ClInclude Include="PositionComponent.h" />
-    <ClInclude Include="SpriteComponent.h" />
     <ClInclude Include="TextureManage.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

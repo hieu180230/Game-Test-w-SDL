@@ -1,13 +1,13 @@
 #pragma once
 #include "Components.h"
 
-class PositionComponent : public Component
+class TransformComponent : public Component
 {
 private:
 	int x, y;
 public:
 
-	PositionComponent()
+	TransformComponent()
 	{
 		x = 0;
 		y = 0;
@@ -19,7 +19,7 @@ public:
 		y = 0;
 	}
 
-	PositionComponent(int xpos, int ypos)
+	TransformComponent(int xpos, int ypos)
 	{
 		x = xpos;
 		y = ypos;
