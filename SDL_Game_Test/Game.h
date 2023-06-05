@@ -15,6 +15,7 @@ private:
 	bool isRunning = false;
 	SDL_Window* window = NULL;
 
+
 public:
 	Game();
 	~Game();
@@ -27,5 +28,6 @@ public:
 	bool running();
 
 	static SDL_Renderer* renderer;
+	static SDL_Event event;
 };
 

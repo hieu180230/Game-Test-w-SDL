@@ -145,6 +145,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="glad\src\glad.c" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="TextureManage.cpp" />
     <ClCompile Include="Vector2D.cpp" />
@@ -152,9 +153,11 @@
   <ItemGroup>
     <ClInclude Include="Entity&amp;Component\Components.h" />
     <ClInclude Include="Entity&amp;Component\Entity&amp;Component.h" />
+    <ClInclude Include="Entity&amp;Component\KeyboardControl.h" />
     <ClInclude Include="Entity&amp;Component\TransformComponent.h" />
     <ClInclude Include="Entity&amp;Component\SpriteComponent.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="TextureManage.h" />
     <ClInclude Include="Vector2D.h" />

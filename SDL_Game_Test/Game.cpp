@@ -3,11 +3,14 @@
 #include "TextureManage.h"
 #include "Entity&Component/Components.h"
 #include "Vector2D.h"
+#include "Map.h"
 
 using namespace std;
 
 SDL_Renderer* Game::renderer = nullptr;
 Manager manager;
+SDL_Event Game::event;
+Map* map;
 auto& person(manager.addEntity());
 
 
@@ -37,15 +40,17 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height)
 	}
 	else isRunning = false;
 
+	map = new Map();
+
 	person.addComponent<TransformComponent>();
 	person.addComponent<SpriteComponent>("resource//person.png");
-
+	person.addComponent<Control>();
 }
 
 
 void Game::handleEvent()
 {
-	SDL_Event event;
+
 	SDL_PollEvent(&event);
 	switch (event.type)
 	{
@@ -61,19 +66,14 @@ void Game::update()
 {
 	manager.refresh();
 	manager.update();
-	person.getComponent<TransformComponent>().position.Add(Vector2D(5, 3.5));
 	cout << person.getComponent<TransformComponent>().position;
-	if (person.getComponent<TransformComponent>().position.x == 640 && person.getComponent<TransformComponent>().position.y == 448)
-	{
-		person.getComponent<TransformComponent>().position.x = 0.0;
-		person.getComponent<TransformComponent>().position.y = 0.0;
-	}
 }
 
 void Game::render()
 {
 	SDL_RenderClear(renderer);
 	// add texture
+	map->drawMap();
 	manager.draw();
 	SDL_RenderPresent(renderer);
 }
