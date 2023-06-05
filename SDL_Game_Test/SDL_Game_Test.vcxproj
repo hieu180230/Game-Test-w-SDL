@@ -151,6 +151,7 @@
     <ClCompile Include="Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Entity&amp;Component\Collision.h" />
     <ClInclude Include="Entity&amp;Component\Components.h" />
     <ClInclude Include="Entity&amp;Component\Entity&amp;Component.h" />
     <ClInclude Include="Entity&amp;Component\KeyboardControl.h" />

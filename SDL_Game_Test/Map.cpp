@@ -42,7 +42,12 @@ Map::Map()
 	dst.x = dst.y = 0;
 };
 
-Map::~Map() {};
+Map::~Map() 
+{
+	SDL_DestroyTexture(grass);
+	SDL_DestroyTexture(water);
+	SDL_DestroyTexture(dirt);
+};
 
 void Map::mapLoad(int a[24][32]) 
 {
