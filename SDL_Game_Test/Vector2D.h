@@ -27,5 +27,5 @@ public:
 	Vector2D& operator*=(const Vector2D& vec);
 	Vector2D& operator/=(const Vector2D& vec);
 
-
+	friend ostream& operator << (ostream& stream, const Vector2D vec);
 };
