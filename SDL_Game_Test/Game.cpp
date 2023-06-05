@@ -62,7 +62,7 @@ void Game::update()
 	manager.refresh();
 	manager.update();
 	person.getComponent<TransformComponent>().position.Add(Vector2D(5, 3.5));
-	person.getComponent<TransformComponent>().position.vectorLog(person.getComponent<TransformComponent>().position);
+	cout << person.getComponent<TransformComponent>().position;
 	if (person.getComponent<TransformComponent>().position.x == 640 && person.getComponent<TransformComponent>().position.y == 448)
 	{
 		person.getComponent<TransformComponent>().position.x = 0.0;

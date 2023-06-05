@@ -27,5 +27,5 @@ public:
 	Vector2D& operator*=(const Vector2D& vec);
 	Vector2D& operator/=(const Vector2D& vec);
 
-	void vectorLog(const Vector2D vec);
+
 };

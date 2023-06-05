@@ -71,7 +71,8 @@ Vector2D& Vector2D::operator/=(const Vector2D& vec)
 	return this->Div(vec);
 }
 
-void Vector2D::vectorLog(const Vector2D vec)
+ostream& operator << (ostream& stream, const Vector2D vec)
 {
 	cout << "[" << vec.x << ":" << vec.y << "]" << endl;
+	return stream;
 }
