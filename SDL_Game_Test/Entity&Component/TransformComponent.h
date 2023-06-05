@@ -1,44 +1,33 @@
 #pragma once
 #include "Components.h"
+#include "../Vector2D.h"
 
 class TransformComponent : public Component
 {
-private:
-	int x, y;
+
 public:
+	Vector2D position;
 
 	TransformComponent()
 	{
-		x = 0;
-		y = 0;
+		position.x = 0.0f;
+		position.y = 0.0f;
 	}
 
 	void init() override
 	{
-		x = 0;
-		y = 0;
+		position.x = 0.0f;
+		position.y = 0.0f;
 	}
 
-	TransformComponent(int xpos, int ypos)
+	TransformComponent(float xpos, float ypos)
 	{
-		x = xpos;
-		y = ypos;
+		position.x = xpos;
+		position.y = ypos;
 	}
 
 	void update() override
 	{
-		x++;
-		y++;
+	
 	}
-
-	void setPos(int xpos, int ypos)
-	{
-		x = xpos;
-		y = ypos;
-	}
-
-	int getX() { return x; }
-	int getY() { return y; }
-	void setX(int x) { this->x = x; }
-	void setY(int y) { this->y = y; }
 };

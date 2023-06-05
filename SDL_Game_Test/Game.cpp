@@ -2,6 +2,7 @@
 #include "SDL.h"
 #include "TextureManage.h"
 #include "Entity&Component/Components.h"
+#include "Vector2D.h"
 
 using namespace std;
 
@@ -60,6 +61,13 @@ void Game::update()
 {
 	manager.refresh();
 	manager.update();
+	person.getComponent<TransformComponent>().position.Add(Vector2D(5, 3.5));
+	person.getComponent<TransformComponent>().position.vectorLog(person.getComponent<TransformComponent>().position);
+	if (person.getComponent<TransformComponent>().position.x == 640 && person.getComponent<TransformComponent>().position.y == 448)
+	{
+		person.getComponent<TransformComponent>().position.x = 0.0;
+		person.getComponent<TransformComponent>().position.y = 0.0;
+	}
 }
 
 void Game::render()
