@@ -4,6 +4,7 @@
 #include "Entity&Component/Components.h"
 #include "Vector2D.h"
 #include "Map.h"
+#include "Collision.h"
 
 using namespace std;
 
@@ -11,8 +12,15 @@ SDL_Renderer* Game::renderer = nullptr;
 Manager manager;
 SDL_Event Game::event;
 Map* map;
-auto& person(manager.addEntity());
 
+vector<Collider*> Game::colliders;
+
+auto& person(manager.addEntity());
+auto& wall(manager.addEntity());
+
+auto& tile0(manager.addEntity());
+auto& tile1(manager.addEntity());
+auto& tile2(manager.addEntity());
 
 int step = 0, jump = ground;
 
@@ -42,9 +50,21 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height)
 
 	map = new Map();
 
-	person.addComponent<TransformComponent>();
+	tile0.addComponent<TileComponent>(200, 200, 32, 32, 0);
+	tile0.addComponent<Collider>("dirt");
+	tile1.addComponent<TileComponent>(250, 250, 32, 32, 1);
+	tile1.addComponent<Collider>("water");
+	tile2.addComponent<TileComponent>(150, 150, 32, 32, 2);
+	tile2.addComponent<Collider>("grass");
+
+	person.addComponent<TransformComponent>(2);
 	person.addComponent<SpriteComponent>("resource//person.png");
 	person.addComponent<Control>();
+	person.addComponent<Collider>("player");
+
+	wall.addComponent<TransformComponent>(300.0, 300.0, 20, 20, 1);
+	wall.addComponent<SpriteComponent>("resource//water.png");
+	wall.addComponent<Collider>("wall");
 }
 
 
@@ -66,7 +86,11 @@ void Game::update()
 {
 	manager.refresh();
 	manager.update();
-	cout << person.getComponent<TransformComponent>().position;
+
+	for (auto c : colliders)
+	{
+		Collision::isCollide(person.getComponent<Collider>(), *c);
+	}
 }
 
 void Game::render()

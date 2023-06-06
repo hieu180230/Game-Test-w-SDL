@@ -3,11 +3,14 @@
 #include "SDL_image.h"
 #include "glad/include/glad/glad.h"
 #include <iostream>
+#include <vector>
 #define ground 320
 using namespace std;
 
 const int WIDTH = 640;
 const int HEIGHT = 480;
+
+class Collider;
 
 class Game
 {
@@ -29,5 +32,6 @@ public:
 
 	static SDL_Renderer* renderer;
 	static SDL_Event event;
+	static vector<Collider*> colliders;
 };
 

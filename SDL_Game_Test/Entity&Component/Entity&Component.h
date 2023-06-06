@@ -65,7 +65,7 @@ public:
 	//check if entity has components
 	template <typename T> bool hasComponent() const
 	{
-		return componentBitset[getComponentTypeID<T>];
+		return componentBitset[getComponentTypeID<T>()];
 	}
 
 	//add a component to an entity

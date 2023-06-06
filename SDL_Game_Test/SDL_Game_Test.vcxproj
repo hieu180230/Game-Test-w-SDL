@@ -142,6 +142,7 @@
     <Library Include="SDL2main.lib" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="glad\src\glad.c" />
     <ClCompile Include="main.cpp" />
@@ -151,10 +152,12 @@
     <ClCompile Include="Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Entity&amp;Component\Collision.h" />
+    <ClInclude Include="Collision.h" />
+    <ClInclude Include="Entity&amp;Component\Collider.h" />
     <ClInclude Include="Entity&amp;Component\Components.h" />
     <ClInclude Include="Entity&amp;Component\Entity&amp;Component.h" />
     <ClInclude Include="Entity&amp;Component\KeyboardControl.h" />
+    <ClInclude Include="Entity&amp;Component\TileComponent.h" />
     <ClInclude Include="Entity&amp;Component\TransformComponent.h" />
     <ClInclude Include="Entity&amp;Component\SpriteComponent.h" />
     <ClInclude Include="Game.h" />
