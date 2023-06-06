@@ -18,10 +18,6 @@ vector<Collider*> Game::colliders;
 auto& person(manager.addEntity());
 auto& wall(manager.addEntity());
 
-auto& tile0(manager.addEntity());
-auto& tile1(manager.addEntity());
-auto& tile2(manager.addEntity());
-
 int step = 0, jump = ground;
 
 Game::Game() {};
@@ -50,12 +46,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height)
 
 	map = new Map();
 
-	tile0.addComponent<TileComponent>(200, 200, 32, 32, 0);
-	tile0.addComponent<Collider>("dirt");
-	tile1.addComponent<TileComponent>(250, 250, 32, 32, 1);
-	tile1.addComponent<Collider>("water");
-	tile2.addComponent<TileComponent>(150, 150, 32, 32, 2);
-	tile2.addComponent<Collider>("grass");
+	Map::mapLoad("resource/map.map", 16,16);
 
 	person.addComponent<TransformComponent>(2);
 	person.addComponent<SpriteComponent>("resource//person.png");
@@ -97,7 +88,6 @@ void Game::render()
 {
 	SDL_RenderClear(renderer);
 	// add texture
-	map->drawMap();
 	manager.draw();
 	SDL_RenderPresent(renderer);
 }
@@ -109,6 +99,12 @@ void Game::clean()
 	SDL_Quit();
 	IMG_Quit();
 	cout << "System cleaned!" << endl;
+}
+
+void Game::addTile(int id, int x, int y)
+{
+	auto& tile(manager.addEntity());
+	tile.addComponent<TileComponent>(x, y, 32, 32, id);
 }
 
 bool Game::running()

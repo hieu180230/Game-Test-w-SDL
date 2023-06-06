@@ -31,12 +31,12 @@ public:
 			path = "resource/dirt.png";
 			break;
 		}
-		case 1:
+		case 2:
 		{
 			path = "resource/water.png";
 			break;
 		}
-		case 2:
+		case 1:
 		{
 			path = "resource/grass.png";
 			break;

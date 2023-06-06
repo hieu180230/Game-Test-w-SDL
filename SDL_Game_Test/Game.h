@@ -7,8 +7,8 @@
 #define ground 320
 using namespace std;
 
-const int WIDTH = 640;
-const int HEIGHT = 480;
+const int WIDTH = 1280;
+const int HEIGHT = 720;
 
 class Collider;
 
@@ -29,6 +29,8 @@ public:
 	void render();
 	void clean();
 	bool running();
+
+	static void addTile(int id, int x, int y);
 
 	static SDL_Renderer* renderer;
 	static SDL_Event event;
