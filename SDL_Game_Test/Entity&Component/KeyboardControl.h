@@ -46,7 +46,7 @@ public:
 			{
 				transform->velocity.x = -1;
 				sprite->play("Walk");
-				sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
+				//sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
 				break;
 			}
 			}
@@ -77,7 +77,7 @@ public:
 			{
 				transform->velocity.x = 0;
 				sprite->play("Idle");
-				sprite->spriteFlip = SDL_FLIP_NONE;
+				//sprite->spriteFlip = SDL_FLIP_NONE;
 				break;
 			}
 			}
