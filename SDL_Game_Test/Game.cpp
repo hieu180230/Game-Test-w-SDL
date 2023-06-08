@@ -15,7 +15,7 @@ Map* maps;
 
 vector<Collider*> Game::colliders;
 
-auto& person(manager.addEntity());
+auto& player(manager.addEntity());
 auto& wall(manager.addEntity());
 
 enum groupLabel : size_t
@@ -55,11 +55,11 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height)
 
 	Map::mapLoad("resource/map.map", 16,16);
 
-	person.addComponent<TransformComponent>(2);
-	person.addComponent<SpriteComponent>("resource//dog_anim.png", true);
-	person.addComponent<Control>();
-	person.addComponent<Collider>("player");
-	person.addGroup(groupPlayers);
+	player.addComponent<TransformComponent>(2);
+	player.addComponent<SpriteComponent>("resource//Prog.png", true);
+	player.addComponent<Control>();
+	player.addComponent<Collider>("player");
+	player.addGroup(groupPlayers);
 
 	wall.addComponent<TransformComponent>(300.0, 300.0, 20, 20, 1);
 	wall.addComponent<SpriteComponent>("resource//water.png");
@@ -89,7 +89,7 @@ void Game::update()
 
 	for (auto c : colliders)
 	{
-		Collision::isCollide(person.getComponent<Collider>(), *c);
+		Collision::isCollide(player.getComponent<Collider>(), *c);
 	}
 }
 

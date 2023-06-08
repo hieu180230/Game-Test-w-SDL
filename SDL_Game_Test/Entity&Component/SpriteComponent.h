@@ -35,11 +35,12 @@ public:
 	{
 		animated = isAnimated;
 
-		Animation idle = Animation(0, 3, 100);
-		Animation walk = Animation(1, 4, 100);
-
+		Animation idle = Animation(0, 2, 200);
 		animations.emplace("Idle", idle);
+
+		Animation walk = Animation(2, 4, 200);
 		animations.emplace("Walk", walk);
+
 
 		play("Idle");
 		setTexture(path);
