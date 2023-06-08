@@ -10,9 +10,11 @@ class Control : public Component
 {
 public:
 	TransformComponent* transform;
+	SpriteComponent* sprite;
 
 	void init() override
 	{
+		sprite = &entity->getComponent<SpriteComponent>();
 		transform = &entity->getComponent<TransformComponent>();
 	}
 
@@ -25,21 +27,26 @@ public:
 			case SDLK_UP:
 			{
 				transform->velocity.y = -1;
+				sprite->play("Walk");
 				break;
 			}
 			case SDLK_DOWN:
 			{
 				transform->velocity.y = 1;
+				sprite->play("Walk");
 				break;
 			}
 			case SDLK_RIGHT:
 			{
 				transform->velocity.x = 1;
+				sprite->play("Walk");
 				break;
 			}
 			case SDLK_LEFT:
 			{
 				transform->velocity.x = -1;
+				sprite->play("Walk");
+				sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
 				break;
 			}
 			}
@@ -51,21 +58,26 @@ public:
 			case SDLK_UP:
 			{
 				transform->velocity.y = 0;
+				sprite->play("Idle");
 				break;
 			}
 			case SDLK_DOWN:
 			{
 				transform->velocity.y = 0;
+				sprite->play("Idle");
 				break;
 			}
 			case SDLK_RIGHT:
 			{
 				transform->velocity.x = 0;
+				sprite->play("Idle");
 				break;
 			}
 			case SDLK_LEFT:
 			{
 				transform->velocity.x = 0;
+				sprite->play("Idle");
+				sprite->spriteFlip = SDL_FLIP_NONE;
 				break;
 			}
 			}

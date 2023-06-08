@@ -11,12 +11,19 @@ using namespace std;
 SDL_Renderer* Game::renderer = nullptr;
 Manager manager;
 SDL_Event Game::event;
-Map* map;
+Map* maps;
 
 vector<Collider*> Game::colliders;
 
 auto& person(manager.addEntity());
 auto& wall(manager.addEntity());
+
+enum groupLabel : size_t
+{
+	groupMap,
+	groupPlayers,
+	groupColliders
+};
 
 int step = 0, jump = ground;
 
@@ -44,18 +51,20 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height)
 	}
 	else isRunning = false;
 
-	map = new Map();
+	maps = new Map();
 
 	Map::mapLoad("resource/map.map", 16,16);
 
 	person.addComponent<TransformComponent>(2);
-	person.addComponent<SpriteComponent>("resource//person.png");
+	person.addComponent<SpriteComponent>("resource//dog_anim.png", true);
 	person.addComponent<Control>();
 	person.addComponent<Collider>("player");
+	person.addGroup(groupPlayers);
 
 	wall.addComponent<TransformComponent>(300.0, 300.0, 20, 20, 1);
 	wall.addComponent<SpriteComponent>("resource//water.png");
 	wall.addComponent<Collider>("wall");
+	wall.addGroup(groupMap);
 }
 
 
@@ -84,11 +93,22 @@ void Game::update()
 	}
 }
 
+auto& tiles(manager.getGroup(groupMap));
+auto& players(manager.getGroup(groupPlayers));
+
+
 void Game::render()
 {
 	SDL_RenderClear(renderer);
 	// add texture
-	manager.draw();
+	for (auto& t : tiles)
+	{
+		t->draw();
+	}
+	for (auto& t : players)
+	{
+		t->draw();
+	}
 	SDL_RenderPresent(renderer);
 }
 
@@ -105,6 +125,7 @@ void Game::addTile(int id, int x, int y)
 {
 	auto& tile(manager.addEntity());
 	tile.addComponent<TileComponent>(x, y, 32, 32, id);
+	tile.addGroup(groupMap);
 }
 
 bool Game::running()

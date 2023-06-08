@@ -143,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="Entity&amp;Component\Entity&amp;Component.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="glad\src\glad.c" />
     <ClCompile Include="main.cpp" />
@@ -153,6 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Collision.h" />
+    <ClInclude Include="Entity&amp;Component\Animation.h" />
     <ClInclude Include="Entity&amp;Component\Collider.h" />
     <ClInclude Include="Entity&amp;Component\Components.h" />
     <ClInclude Include="Entity&amp;Component\Entity&amp;Component.h" />

@@ -49,9 +49,9 @@ public:
 	{
 		position.x += velocity.x * speed;
 		position.y += velocity.y * speed;
-		if (position.x > 640) position.x = 0;
-		if (position.x < 0)	position.x = 640;
-		if (position.y > 480) position.y = 0;
-		if (position.y < 0) position.y = 480;
+		if (position.x > 1280) position.x = 0;
+		if (position.x < 0)	position.x = 1280;
+		if (position.y > 720) position.y = 0;
+		if (position.y < 0) position.y = 720;
 	}
 };
