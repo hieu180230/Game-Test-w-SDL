@@ -12,11 +12,13 @@ SDL_Renderer* Game::renderer = nullptr;
 Manager manager;
 SDL_Event Game::event;
 Map* maps;
+bool Game::isRunning = false;
 
 vector<Collider*> Game::colliders;
 
 auto& player(manager.addEntity());
 auto& wall(manager.addEntity());
+const char* mapFile = "resource//mapTile.png";
 
 enum groupLabel : size_t
 {
@@ -24,6 +26,9 @@ enum groupLabel : size_t
 	groupPlayers,
 	groupColliders
 };
+
+auto& tiles(manager.getGroup(groupMap));
+auto& players(manager.getGroup(groupPlayers));
 
 int step = 0, jump = ground;
 
@@ -53,7 +58,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height)
 
 	maps = new Map();
 
-	Map::mapLoad("resource/map.map", 16,16);
+	Map::mapLoad("resource/map.map", 40,23);
 
 	player.addComponent<TransformComponent>(2);
 	player.addComponent<SpriteComponent>("resource//Prog.png", true);
@@ -61,10 +66,6 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height)
 	player.addComponent<Collider>("player");
 	player.addGroup(groupPlayers);
 
-	wall.addComponent<TransformComponent>(300.0, 300.0, 20, 20, 1);
-	wall.addComponent<SpriteComponent>("resource//water.png");
-	wall.addComponent<Collider>("wall");
-	wall.addGroup(groupMap);
 }
 
 
@@ -87,15 +88,15 @@ void Game::update()
 	manager.refresh();
 	manager.update();
 
-	for (auto c : colliders)
+	Vector2D pVel = player.getComponent<TransformComponent>().velocity;
+	int pSpeed = player.getComponent<TransformComponent>().speed;
+	
+	for (auto t : tiles)
 	{
-		Collision::isCollide(player.getComponent<Collider>(), *c);
+		t->getComponent<TileComponent>().destR.x += -(pVel.x * pSpeed);
+		t->getComponent<TileComponent>().destR.y += -(pVel.y * pSpeed);
 	}
 }
-
-auto& tiles(manager.getGroup(groupMap));
-auto& players(manager.getGroup(groupPlayers));
-
 
 void Game::render()
 {
@@ -121,10 +122,10 @@ void Game::clean()
 	cout << "System cleaned!" << endl;
 }
 
-void Game::addTile(int id, int x, int y)
+void Game::addTile(int srcX, int srcY, int x, int y)
 {
 	auto& tile(manager.addEntity());
-	tile.addComponent<TileComponent>(x, y, 32, 32, id);
+	tile.addComponent<TileComponent>(srcX, srcY, x, y, mapFile);
 	tile.addGroup(groupMap);
 }
 

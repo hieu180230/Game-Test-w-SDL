@@ -15,11 +15,11 @@ class Collider;
 class Game
 {
 private:
-	bool isRunning = false;
+
 	SDL_Window* window = NULL;
 
-
 public:
+	static bool isRunning;
 	Game();
 	~Game();
 	void init(const char* title, int xpos, int ypos, int width, int height);
@@ -30,7 +30,7 @@ public:
 	void clean();
 	bool running();
 
-	static void addTile(int id, int x, int y);
+	static void addTile(int srcX, int srcY, int x, int y);
 
 	static SDL_Renderer* renderer;
 	static SDL_Event event;

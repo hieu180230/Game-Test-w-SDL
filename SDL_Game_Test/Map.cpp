@@ -17,15 +17,19 @@ void Map::mapLoad(string path, int sizeX, int sizeY)
 	fstream mapFile;
 	mapFile.open(path);
 
+	int srcX, srcY;
+
 	for (int y = 0; y < sizeY; y++)
 	{
 		for (int x = 0; x < sizeX; x++)
 		{
 			mapFile.get(tile);
-			Game::addTile(atoi(&tile), x * 32, y * 32);
+			srcY = atoi(&tile) * 32;
+			mapFile.get(tile);
+			srcX = atoi(&tile) * 32;
+			Game::addTile(srcX, srcY, x * 64, y * 64);
 			mapFile.ignore();
 		}
-		mapFile.get(tile);
 	}
 
 	mapFile.close();
