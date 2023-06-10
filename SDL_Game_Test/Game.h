@@ -19,6 +19,7 @@ private:
 	SDL_Window* window = NULL;
 
 public:
+	static SDL_Rect camera;
 	static bool isRunning;
 	Game();
 	~Game();
@@ -30,10 +31,15 @@ public:
 	void clean();
 	bool running();
 
-	static void addTile(int srcX, int srcY, int x, int y);
 
 	static SDL_Renderer* renderer;
 	static SDL_Event event;
-	static vector<Collider*> colliders;
+
+	enum groupLabel : size_t
+	{
+		groupMap,
+		groupPlayers,
+		groupColliders
+	};
 };
 

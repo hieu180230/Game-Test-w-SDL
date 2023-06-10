@@ -8,6 +8,8 @@ public:
 
 	SDL_Texture* texture;
 	SDL_Rect srcR, destR;
+	Vector2D position;
+
 	TileComponent() = default;
 
 	~TileComponent()
@@ -15,17 +17,26 @@ public:
 		SDL_DestroyTexture(texture);
 	}
 
-	TileComponent(int srcX, int srcY, int x, int y, const char* path)
+	TileComponent(int srcX, int srcY, int x, int y, int tileSize, int tileScale, const char* path)
 	{
 		texture = TextureManage::LoadTexture(path);
 
+		position.x = x;
+		position.y = y;
+
 		srcR.x = srcX;
 		srcR.y = srcY;
-		srcR.w = srcR.h = 32;
+		srcR.w = srcR.h = tileSize;
 
 		destR.x = x;
 		destR.y = y;
-		destR.w = destR.h = 64;
+		destR.w = destR.h = tileSize * tileScale;
+	}
+
+	void update() override
+	{
+		destR.x = position.x - Game::camera.x;
+		destR.y = position.y - Game::camera.y;
 	}
 
 	void draw() override

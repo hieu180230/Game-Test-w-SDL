@@ -76,8 +76,8 @@ public:
 
 		srcR.y = aniIndex * transform->height;
 
-		destR.x = static_cast<int>(transform->position.x);
-		destR.y = static_cast<int>(transform->position.y);
+		destR.x = static_cast<int>(transform->position.x) - Game::camera.x;
+		destR.y = static_cast<int>(transform->position.y) - Game::camera.y;
 		destR.w = transform->width * transform->scale;
 		destR.h = transform->height * transform->scale;
 	}

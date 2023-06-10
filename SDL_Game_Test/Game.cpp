@@ -11,24 +11,13 @@ using namespace std;
 SDL_Renderer* Game::renderer = nullptr;
 Manager manager;
 SDL_Event Game::event;
+
+SDL_Rect Game::camera = { 0,0,1280,720 };
+
 Map* maps;
 bool Game::isRunning = false;
 
-vector<Collider*> Game::colliders;
-
 auto& player(manager.addEntity());
-auto& wall(manager.addEntity());
-const char* mapFile = "resource//mapTile.png";
-
-enum groupLabel : size_t
-{
-	groupMap,
-	groupPlayers,
-	groupColliders
-};
-
-auto& tiles(manager.getGroup(groupMap));
-auto& players(manager.getGroup(groupPlayers));
 
 int step = 0, jump = ground;
 
@@ -56,9 +45,9 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height)
 	}
 	else isRunning = false;
 
-	maps = new Map();
+	maps = new Map("resource/mapTile.png", 3, 32);
 
-	Map::mapLoad("resource/map.map", 40,23);
+	maps->mapLoad("resource/map.map", 40,23);
 
 	player.addComponent<TransformComponent>(2);
 	player.addComponent<SpriteComponent>("resource//Prog.png", true);
@@ -68,6 +57,9 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height)
 
 }
 
+auto& tiles(manager.getGroup(Game::groupMap));
+auto& players(manager.getGroup(Game::groupPlayers));
+auto& colliders(manager.getGroup(Game::groupColliders));
 
 void Game::handleEvent()
 {
@@ -85,16 +77,39 @@ void Game::handleEvent()
 
 void Game::update()
 {
+	SDL_Rect playerCollider = player.getComponent<Collider>().collide;
+	Vector2D playerpos = player.getComponent<TransformComponent>().position;
+
 	manager.refresh();
 	manager.update();
 
-	Vector2D pVel = player.getComponent<TransformComponent>().velocity;
-	int pSpeed = player.getComponent<TransformComponent>().speed;
-	
-	for (auto t : tiles)
+	for (auto& c : colliders)
 	{
-		t->getComponent<TileComponent>().destR.x += -(pVel.x * pSpeed);
-		t->getComponent<TileComponent>().destR.y += -(pVel.y * pSpeed);
+		SDL_Rect cCollider = c->getComponent<Collider>().collide;
+		if (Collision::isCollide(cCollider, playerCollider))
+		{
+			player.getComponent<TransformComponent>().position = playerpos;
+		}
+	}
+
+	camera.x = player.getComponent<TransformComponent>().position.x - 640;
+	camera.y = player.getComponent<TransformComponent>().position.y - 360;
+
+	if (camera.x < 0)
+	{
+		camera.x = 0;
+	}
+	if (camera.y < 0)
+	{
+		camera.y = 0;
+	}
+	if (camera.x > camera.w)
+	{
+		camera.x = camera.w;
+	}
+	if (camera.y > camera.h)
+	{
+		camera.y = camera.h;
 	}
 }
 
@@ -106,6 +121,12 @@ void Game::render()
 	{
 		t->draw();
 	}
+
+	for (auto& c : colliders)
+	{
+		c->draw();
+	}
+
 	for (auto& t : players)
 	{
 		t->draw();
@@ -122,12 +143,6 @@ void Game::clean()
 	cout << "System cleaned!" << endl;
 }
 
-void Game::addTile(int srcX, int srcY, int x, int y)
-{
-	auto& tile(manager.addEntity());
-	tile.addComponent<TileComponent>(srcX, srcY, x, y, mapFile);
-	tile.addGroup(groupMap);
-}
 
 bool Game::running()
 {
