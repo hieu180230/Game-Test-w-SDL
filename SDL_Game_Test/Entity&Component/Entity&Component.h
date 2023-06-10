@@ -9,9 +9,9 @@
 
 using namespace std;
 
-class Component;
-class Entity;
-class Manager;
+class Component; //multiple components of an entity
+class Entity;//mark an entity
+class Manager;//store entities
 
 using ComponentID = size_t; // call size_t ComponentID
 using Group = size_t;
@@ -22,7 +22,7 @@ inline ComponentID getComponentTypeID()
 	return lastID++;
 }
 
-template <typename T> inline ComponentID getComponentTypeID() noexcept
+template <typename T> inline ComponentID getComponentTypeID() noexcept //get id of a specific type of component
 {
 	static ComponentID typeID{ getComponentTypeID() };
 	return typeID;
@@ -39,7 +39,8 @@ class Component
 {
 public:
 	Entity* entity;
-
+	
+	//these function appear to be override by any type of components of an entity
 	virtual void init() {};
 	virtual void update() {};
 	virtual void draw() {};
@@ -54,11 +55,12 @@ private:
 
 	bool active = true;
 	vector<unique_ptr<Component>> components; //unique_ptr is for automatic memory management 
-	ComponentArray componentArray;
+	ComponentArray componentArray;//store components of an entity
 	ComponentBitSet componentBitset;
 	GroupBitSet groupBitSet;
 
 public:
+
 	Entity(Manager& mManager) : manager(mManager) {}
 	void update() // update every component in the components array
 	{
@@ -71,13 +73,13 @@ public:
 	bool isActive() { return active; }
 	void destroy() { active = false; }
 
-	bool hasGroup(Group mGroup)
+	bool hasGroup(Group mGroup)// check if an entity belong to a group
 	{
 		return groupBitSet[mGroup];
 	}
 
-	void addGroup(Group mGroup);
-	void delGroup(Group mGroup)
+	void addGroup(Group mGroup); //add an entity to a group
+	void delGroup(Group mGroup) // delete an entity from a group
 	{
 		groupBitSet[mGroup] = false;
 	}
