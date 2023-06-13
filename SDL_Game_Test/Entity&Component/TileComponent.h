@@ -1,5 +1,8 @@
 #pragma once
+#include "../AssetManager.h"
 #include "Entity&Component.h"
+#include "../Game.h"
+#include "../TextureManage.h"
 #include "SDL.h"
 
 class TileComponent : public Component
@@ -17,9 +20,9 @@ public:
 		SDL_DestroyTexture(texture);
 	}
 
-	TileComponent(int srcX, int srcY, int x, int y, int tileSize, int tileScale, const char* path)
+	TileComponent(int srcX, int srcY, int x, int y, int tileSize, int tileScale, string textureId)
 	{
-		texture = TextureManage::LoadTexture(path);
+		texture = Game::assets->getTexture(textureId);
 
 		position.x = x;
 		position.y = y;

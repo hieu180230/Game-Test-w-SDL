@@ -47,6 +47,9 @@
     <ClCompile Include="Entity&amp;Component\Entity&amp;Component.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AssetManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -89,6 +92,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Entity&amp;Component\Animation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity&amp;Component\Projectile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity&amp;Component\UILabel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

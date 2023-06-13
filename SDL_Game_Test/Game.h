@@ -11,15 +11,18 @@ const int WIDTH = 1280;
 const int HEIGHT = 720;
 
 class Collider;
+class AssetManager;
 
 class Game
 {
 private:
 
-	SDL_Window* window = NULL;
+	SDL_Window* window;
 
 public:
 	static SDL_Rect camera;
+	static AssetManager* assets;
+
 	static bool isRunning;
 	Game();
 	~Game();
@@ -39,7 +42,8 @@ public:
 	{
 		groupMap,
 		groupPlayers,
-		groupColliders
+		groupColliders,
+		groupProjectile
 	};
 };
 

@@ -4,12 +4,12 @@
 class Map
 {
 private:
-	const char* mapFile;
+	string textureId;
 	int mapScale;
 	int tileSize;
 	int scaleSize;
 public:
-	Map(const char* mapFile, int mapScale, int tileSize);
+	Map(string id, int mapScale, int tileSize);
 	~Map();
 
 	void mapLoad(string path, int sizeX, int sizeY);

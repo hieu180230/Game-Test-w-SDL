@@ -6,3 +6,5 @@
 #include "KeyboardControl.h"
 #include "Collider.h"
 #include "TileComponent.h"
+#include "Projectile.h"
+#include "./UILabel.h"

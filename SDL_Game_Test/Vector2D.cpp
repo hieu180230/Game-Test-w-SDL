@@ -86,6 +86,6 @@ Vector2D& Vector2D::Zero()
 
 ostream& operator << (ostream& stream, const Vector2D vec)
 {
-	cout << "[" << vec.x << ":" << vec.y << "]" << endl;
+	stream << "[" << vec.x << ":" << vec.y << "]";
 	return stream;
 }

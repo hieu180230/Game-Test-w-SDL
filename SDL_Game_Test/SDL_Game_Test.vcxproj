@@ -83,10 +83,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>E:\SDL2-2.26.5\SDL2_image-2.0.1\include;C:\Users\Dell\source\repos\SDL_Game_Test\SDL_Game_Test\SDL2_ttf-2.20.2\include;C:\Users\Dell\source\repos\SDL_Game_Test\SDL_Game_Test\glad\include;;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>E:\SDL2-2.26.5\SDL2_image-2.0.1\lib\x64;C:\Users\Dell\source\repos\SDL_Game_Test\SDL_Game_Test\SDL2_ttf-2.20.2\lib;;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -111,13 +113,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>E:\SDL2-2.26.5\SDL2_image-2.0.1\include;C:\Users\Dell\source\repos\SDL_Game_Test\SDL_Game_Test\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\SDL2-2.26.5\SDL2_image-2.0.1\include;C:\Users\Dell\source\repos\SDL_Game_Test\SDL_Game_Test\SDL2_ttf-2.20.2\include;C:\Users\Dell\source\repos\SDL_Game_Test\SDL_Game_Test\glad\include;C:\Users\Dell\source\repos\SDL_Game_Test\SDL_Game_Test\SDL2_ttf-2.20.2\include;E:\SDL2-2.26.5\SDL2_image-2.0.1\include;C:\Users\Dell\source\repos\SDL_Game_Test\SDL_Game_Test\glad\include;%(AdditionalIncludeDirectories);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>E:\SDL2-2.26.5\SDL2_image-2.0.1\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>E:\SDL2-2.26.5\SDL2_image-2.0.1\lib\x64;C:\Users\Dell\source\repos\SDL_Game_Test\SDL_Game_Test\SDL2_ttf-2.20.2\lib;C:\Users\Dell\source\repos\SDL_Game_Test\SDL_Game_Test\SDL2_ttf-2.20.2\lib;E:\SDL2-2.26.5\SDL2_image-2.0.1\lib\x64;%(AdditionalLibraryDirectories);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -142,6 +144,7 @@
     <Library Include="SDL2main.lib" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Entity&amp;Component\Entity&amp;Component.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -153,15 +156,18 @@
     <ClCompile Include="Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AssetManager.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Entity&amp;Component\Animation.h" />
     <ClInclude Include="Entity&amp;Component\Collider.h" />
     <ClInclude Include="Entity&amp;Component\Components.h" />
     <ClInclude Include="Entity&amp;Component\Entity&amp;Component.h" />
     <ClInclude Include="Entity&amp;Component\KeyboardControl.h" />
+    <ClInclude Include="Entity&amp;Component\Projectile.h" />
     <ClInclude Include="Entity&amp;Component\TileComponent.h" />
     <ClInclude Include="Entity&amp;Component\TransformComponent.h" />
     <ClInclude Include="Entity&amp;Component\SpriteComponent.h" />
+    <ClInclude Include="Entity&amp;Component\UILabel.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Object.h" />

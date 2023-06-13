@@ -113,24 +113,28 @@ public:
 	}
 };
 
+//manage multiple entities
 class Manager
 {
 private:
-	vector<unique_ptr<Entity>> entities;
-	array<vector<Entity*>, maxGroup> groupEntities;
-
+	vector<unique_ptr<Entity>> entities; //store entities
+	array<vector<Entity*>, maxGroup> groupEntities; //store entities' group
 public:
+	//update each entity
 	void update()
 	{
 		for (auto& e : entities) e->update();
 	}
+	//draw each entity
 	void draw()
 	{
 		for (auto& e : entities) e->draw();
 	}
 
+
 	void refresh()
 	{
+		//remove an inactive or groupless component of an entity
 		for (auto c(0u); c < maxGroup; c++)
 		{
 			auto& v(groupEntities[c]);
@@ -142,6 +146,7 @@ public:
 				end(v));
 		}
 
+		//remove an inactive or groupless entity
 		entities.erase(remove_if(begin(entities), end(entities), 
 			[](const unique_ptr<Entity>& mEntity)
 			{
@@ -150,16 +155,19 @@ public:
 			end(entities));
 	}
 
+	//add an entity to a group
 	void addToGroup(Entity* mEntity, Group mGroup)
 	{
 		groupEntities[mGroup].emplace_back(mEntity);
 	}
 
+	//get entities of a group
 	vector<Entity*>& getGroup(Group mGroup)
 	{
 		return groupEntities[mGroup];
 	}
 
+	//add a new entity
 	Entity& addEntity()
 	{
 		Entity* e = new Entity(*this);
