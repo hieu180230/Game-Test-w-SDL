@@ -23,7 +23,7 @@ public:
 	{
 		//position.Zero();
 		position.x = 640;
-		position.y = 360;
+		position.y = 200;
 		scale = sc;
 	}
 

@@ -1,6 +1,4 @@
 #pragma once
-#include "Game.h"
-#include "AssetManager.h"
 #include "SDL.h"
 #include "TextureManage.h"
 #include "Entity&Component/Components.h"
@@ -10,15 +8,14 @@
 #include <vector>
 #include "sstream"
 
-SDL_Renderer* Game::renderer = nullptr;
+
 Manager manager;
-SDL_Event Game::event;
-
-SDL_Rect Game::camera = { 0,0,1280,720 };
-
-AssetManager* Game::assets = new AssetManager(&manager);
-
 Map* maps;
+
+SDL_Renderer* Game::renderer = nullptr;
+SDL_Event Game::event;
+SDL_Rect Game::camera = { 0,0,640,480 };
+AssetManager* Game::assets = new AssetManager(&manager);
 bool Game::isRunning = false;
 
 auto& player(manager.addEntity());

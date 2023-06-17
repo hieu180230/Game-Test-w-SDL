@@ -18,7 +18,7 @@ Map::~Map()
 
 void Map::mapLoad(string path, int sizeX, int sizeY)
 {
-	char tile;
+	char tile, tile1;
 	fstream mapFile;
 	mapFile.open(path);
 
@@ -29,7 +29,8 @@ void Map::mapLoad(string path, int sizeX, int sizeY)
 		for (int x = 0; x < sizeX; x++)
 		{
 			mapFile.get(tile);
-			srcY = atoi(&tile) * tileSize;
+			mapFile.get(tile1);
+			srcY = (atoi(&tile) * 10 + atoi(&tile1)) * tileSize;
 			mapFile.get(tile);
 			srcX = atoi(&tile) * tileSize;
 			addTile(srcX, srcY, x * tileSize * mapScale, y * tileSize * mapScale);

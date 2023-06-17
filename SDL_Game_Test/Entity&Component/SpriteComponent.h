@@ -1,7 +1,7 @@
 #pragma once
 #include "Components.h"
 #include "SDL.h"
-#include "TextureManage.h"
+#include "../TextureManage.h"
 #include "Animation.h"
 #include "../AssetManager.h"
 #include <map>
@@ -39,7 +39,7 @@ public:
 		Animation idle = Animation(0, 2, 200);
 		animations.emplace("Idle", idle);
 
-		Animation walk = Animation(2, 4, 200);
+		Animation walk = Animation(3, 8, 200);
 		animations.emplace("Walk", walk);
 
 

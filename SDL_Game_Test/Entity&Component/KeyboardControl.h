@@ -4,7 +4,7 @@
 #include "Entity&Component.h"
 #include "Components.h"
 #include "Collider.h"
-#include "Collision.h"
+#include "../Collision.h"
 
 class Control : public Component
 {

@@ -2,7 +2,7 @@
 #include<string>
 #include "SDL.h"
 #include "Components.h"
-#include "TextureManage.h"
+#include "../TextureManage.h"
 
 /*Collider is a subclass of component class
 - collide variable is to store the size of the colliding texture

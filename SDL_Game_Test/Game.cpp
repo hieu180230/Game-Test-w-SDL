@@ -32,15 +32,15 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height)
 	}
 
 	assets->addTexture("terrain", "resource/mapTile.png");
-	assets->addTexture("player", "resource//Prog.png");
+	assets->addTexture("player", "resource//ProgTest.png");
 	assets->addTexture("projectile", "resource/bullet.png");
 	assets->addFont("anders", "resource/Anders.ttf", 24);
 	assets->addFont("arial", "resource/arial.ttf", 24);
 
-	maps = new Map("terrain", 3, 32);
+	maps = new Map("terrain", 1, 32);
 	maps->mapLoad("resource/map.map", 40,23);
 
-	player.addComponent<TransformComponent>(2);
+	player.addComponent<TransformComponent>(1);
 	player.addComponent<SpriteComponent>("player", true);
 	player.addComponent<Control>();
 	player.addComponent<Collider>("player");
@@ -71,22 +71,36 @@ void Game::handleEvent()
 
 void Game::update()
 {
-	SDL_Rect playerCollider = player.getComponent<Collider>().collide;
-	Vector2D currentPlayerPos = player.getComponent<TransformComponent>().position;
 	stringstream ss;
-	ss << "Player: " << currentPlayerPos;
-
+	Vector2D PlayerPos = player.getComponent<TransformComponent>().position;
+	ss << "Player: " << PlayerPos;
 	label.getComponent<UILabel>().setLabelText(ss.str(), "arial");
 
 	manager.refresh();
 	manager.update();
+	SDL_Rect playerCollider = player.getComponent<Collider>().collide;
+	char direction;
 
 	for (auto& c : colliders)
 	{
 		SDL_Rect cCollider = c->getComponent<Collider>().collide;
-		if (Collision::isCollide(cCollider, playerCollider))
+		if (Collision::isCollide(playerCollider, cCollider, direction))
 		{
-			player.getComponent<TransformComponent>().position = currentPlayerPos;
+			if (direction == 'r' && player.getComponent<TransformComponent>().velocity.x == 1)
+			{
+				player.getComponent<TransformComponent>().position.x -= 4;
+				break;
+			}
+			if (direction == 'l' && player.getComponent<TransformComponent>().velocity.x == -1)
+			{
+				player.getComponent<TransformComponent>().position.x += 4;
+				break;
+			}
+			if (direction == 'd' && player.getComponent<TransformComponent>().velocity.y == 1)
+			{
+				player.getComponent<TransformComponent>().position.y -= 4;
+				break;
+			}
 		}
 	}
 
@@ -98,13 +112,14 @@ void Game::update()
 		}
 	}*/
 
-	camera.x = player.getComponent<TransformComponent>().position.x - 640;
-	camera.y = player.getComponent<TransformComponent>().position.y - 360;
 
 	if (player.getComponent<TransformComponent>().position.x > 2550) player.getComponent<TransformComponent>().position.x = -60;
 	if (player.getComponent<TransformComponent>().position.x < -60) player.getComponent<TransformComponent>().position.x = 2550;
 	if (player.getComponent<TransformComponent>().position.y > 1430) player.getComponent<TransformComponent>().position.y = -60;
 	if (player.getComponent<TransformComponent>().position.y < -60) player.getComponent<TransformComponent>().position.y = 1430;
+
+	camera.x = player.getComponent<TransformComponent>().position.x - 320;
+	camera.y = player.getComponent<TransformComponent>().position.y - 240;
 
 	if (camera.x < 0)
 	{
