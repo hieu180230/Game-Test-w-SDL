@@ -1,30 +1,6 @@
-#include "Game.h"
-#include "AssetManager.h"
-#include "SDL.h"
-#include "TextureManage.h"
-#include "Entity&Component/Components.h"
-#include "Vector2D.h"
-#include "Map.h"
-#include "Collision.h"
-#include "sstream"
+#include "Variables.h"
 
 using namespace std;
-
-SDL_Renderer* Game::renderer = nullptr;
-Manager manager;
-SDL_Event Game::event;
-
-SDL_Rect Game::camera = { 0,0,1280,720 };
-
-AssetManager* Game::assets = new AssetManager(&manager);
-
-Map* maps;
-bool Game::isRunning = false;
-
-auto& player(manager.addEntity());
-auto& label(manager.addEntity());
-
-int step = 0, jump = ground;
 
 Game::Game() {};
 Game::~Game() {};
@@ -62,7 +38,6 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height)
 	assets->addFont("arial", "resource/arial.ttf", 24);
 
 	maps = new Map("terrain", 3, 32);
-
 	maps->mapLoad("resource/map.map", 40,23);
 
 	player.addComponent<TransformComponent>(2);
@@ -75,14 +50,9 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height)
 	SDL_Color white = { 255,255,255,255 };
 	label.addComponent<UILabel>(10, 10, "FontTest", "arial", white);
 
-
-	assets->createObject(Vector2D(600, 600), Vector2D(2, 0), 200, 2, "projectile");
+	//assets->createObject(Vector2D(600, 600), Vector2D(2, 0), 200, 2, "projectile");
 }
 
-auto& tiles(manager.getGroup(Game::groupMap));
-auto& players(manager.getGroup(Game::groupPlayers));
-auto& colliders(manager.getGroup(Game::groupColliders));
-auto& projectiles(manager.getGroup(Game::groupProjectile));
 
 void Game::handleEvent()
 {
@@ -98,13 +68,13 @@ void Game::handleEvent()
 	}
 }
 
+
 void Game::update()
 {
 	SDL_Rect playerCollider = player.getComponent<Collider>().collide;
-	Vector2D playerpos = player.getComponent<TransformComponent>().position;
-
+	Vector2D currentPlayerPos = player.getComponent<TransformComponent>().position;
 	stringstream ss;
-	ss << "Player: " << playerpos;
+	ss << "Player: " << currentPlayerPos;
 
 	label.getComponent<UILabel>().setLabelText(ss.str(), "arial");
 
@@ -116,20 +86,25 @@ void Game::update()
 		SDL_Rect cCollider = c->getComponent<Collider>().collide;
 		if (Collision::isCollide(cCollider, playerCollider))
 		{
-			player.getComponent<TransformComponent>().position = playerpos;
+			player.getComponent<TransformComponent>().position = currentPlayerPos;
 		}
 	}
 
-	for (auto& p : projectiles)
+	/*for (auto& p : projectiles)
 	{
 		if (Collision::isCollide(player.getComponent<Collider>().collide, p->getComponent<Collider>().collide))
 		{
 			p->destroy();
 		}
-	}
+	}*/
 
 	camera.x = player.getComponent<TransformComponent>().position.x - 640;
 	camera.y = player.getComponent<TransformComponent>().position.y - 360;
+
+	if (player.getComponent<TransformComponent>().position.x > 2550) player.getComponent<TransformComponent>().position.x = -60;
+	if (player.getComponent<TransformComponent>().position.x < -60) player.getComponent<TransformComponent>().position.x = 2550;
+	if (player.getComponent<TransformComponent>().position.y > 1430) player.getComponent<TransformComponent>().position.y = -60;
+	if (player.getComponent<TransformComponent>().position.y < -60) player.getComponent<TransformComponent>().position.y = 1430;
 
 	if (camera.x < 0)
 	{

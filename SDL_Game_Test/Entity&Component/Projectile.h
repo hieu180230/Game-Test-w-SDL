@@ -20,6 +20,7 @@ public:
 	void init() override
 	{
 		transform = &entity->getComponent<TransformComponent>();
+		transform->scale = 4;
 		transform->velocity = velocity;
 	}
 
