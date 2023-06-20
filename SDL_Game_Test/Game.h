@@ -4,6 +4,15 @@
 #include "glad/include/glad/glad.h"
 #include <iostream>
 #include <vector>
+
+/*
+#include "lua/include/lua.h"
+#include "lua/include/lauxlib.h"
+#include "lua/include/lualib.h"
+
+#pragma comment (lib, "lua/liblua54.a")
+*/
+
 #define ground 320
 using namespace std;
 
