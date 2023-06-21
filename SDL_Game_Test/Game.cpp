@@ -79,14 +79,14 @@ void Game::update()
 	manager.refresh();
 	manager.update();
 	SDL_Rect playerCollider = player.getComponent<Collider>().collide;
-	string direction;
+	char direction;
 
 	for (auto& c : colliders)
 	{
 		SDL_Rect cCollider = c->getComponent<Collider>().collide;
 		if (Collision::isCollide(playerCollider, cCollider, direction))
 		{
-			if (direction == "r" && player.getComponent<TransformComponent>().velocity.x == 1)
+			if (direction == 'r' && player.getComponent<TransformComponent>().velocity.x == 1)
 			{
 				player.getComponent<TransformComponent>().position.x -= 4;
 				for (auto& b : colliders)
@@ -94,7 +94,7 @@ void Game::update()
 					SDL_Rect bCollider = b->getComponent<Collider>().collide;
 					if (Collision::isCollide(playerCollider, bCollider, direction))
 					{
-						if (direction == "d" && player.getComponent<TransformComponent>().velocity.y == 1)
+						if (direction == 'd' && player.getComponent<TransformComponent>().velocity.y == 1)
 						{
 							player.getComponent<TransformComponent>().position.y -= 4;
 							break;
@@ -103,7 +103,7 @@ void Game::update()
 				}
 				break;
 			}
-			if (direction == "l" && player.getComponent<TransformComponent>().velocity.x == -1)
+			if (direction == 'l' && player.getComponent<TransformComponent>().velocity.x == -1)
 			{
 				player.getComponent<TransformComponent>().position.x += 4;
 				for (auto& b : colliders)
@@ -111,7 +111,7 @@ void Game::update()
 					SDL_Rect bCollider = b->getComponent<Collider>().collide;
 					if (Collision::isCollide(playerCollider, bCollider, direction))
 					{
-						if (direction == "d" && player.getComponent<TransformComponent>().velocity.y == 1)
+						if (direction == 'd' && player.getComponent<TransformComponent>().velocity.y == 1)
 						{
 							player.getComponent<TransformComponent>().position.y -= 4;
 							break;
@@ -120,9 +120,26 @@ void Game::update()
 				}
 				break;
 			}
-			if (direction == "d" && player.getComponent<TransformComponent>().velocity.y == 1)
+			if (direction == 'd' && player.getComponent<TransformComponent>().velocity.y == 1)
 			{
 				player.getComponent<TransformComponent>().position.y -= 4;
+				for (auto& b : colliders)
+				{
+					SDL_Rect bCollider = b->getComponent<Collider>().collide;
+					if (Collision::isCollide(playerCollider, bCollider, direction))
+					{
+						if (direction == 'r' && player.getComponent<TransformComponent>().velocity.x == 1)
+						{
+							player.getComponent<TransformComponent>().position.x -= 4;
+							break;
+						}
+						if (direction == 'l' && player.getComponent<TransformComponent>().velocity.x == -1)
+						{
+							player.getComponent<TransformComponent>().position.x += 4;
+							break;
+						}
+					}
+				}
 				break;
 			}
 		}
