@@ -3,19 +3,23 @@
 #include "../Game.h"
 #include "Entity&Component.h"
 #include "Components.h"
+#include "../Collision.h"
 #include "Collider.h"
 #include "../Collision.h"
+
 
 class Control : public Component
 {
 public:
 	TransformComponent* transform;
 	SpriteComponent* sprite;
+	Collider* collide;
 
 	void init() override
 	{
 		sprite = &entity->getComponent<SpriteComponent>();
 		transform = &entity->getComponent<TransformComponent>();
+		collide = &entity->getComponent<Collider>();
 	}
 
 	void update() override
@@ -89,5 +93,6 @@ public:
 			}
 			}
 		}
+
 	}
 };

@@ -8,6 +8,9 @@
 #include <vector>
 #include "sstream"
 
+float gravAccel = 0.25;
+float gravMax = 1.5;
+bool grounded = false;
 
 Manager manager;
 Map* maps;

@@ -5,17 +5,6 @@ using namespace std;
 
 Game game;
 
-void setPixel(SDL_Surface* screen, int x, int y, uint8_t r, uint8_t g, uint8_t b)
-{
-    SDL_LockSurface(screen);
-    SDL_Log("%d %d", x, y);
-    uint8_t* pixelArray = (uint8_t*)screen->pixels;
-    pixelArray[y * screen->pitch + x * screen->format->BytesPerPixel + 0] = b;
-    pixelArray[y * screen->pitch + x * screen->format->BytesPerPixel + 1] = g;
-    pixelArray[y * screen->pitch + x * screen->format->BytesPerPixel + 2] = r; // It is RGB but it also comes in BGR
-    SDL_UnlockSurface(screen);
-}
-
 int main(int argc, char* argv[])
 {
     //Limit framerate
@@ -41,96 +30,136 @@ int main(int argc, char* argv[])
     }
 
     game.clean();
-    /*SDL_Surface* screen; //window surface
-    SDL_Surface* image; //load image
-
-    SDL_Init(SDL_INIT_VIDEO);
-    //Open GL init
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-
-
-    window = SDL_CreateWindow("Testing", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    screen = SDL_GetWindowSurface(window);
-    image = SDL_LoadBMP("resource//cat-owl.bmp");
-
-    //create a rect
-    SDL_Rect rectangle;
-    rectangle.x = 50;
-    rectangle.y = 75;
-    rectangle.w = 200;
-    rectangle.h = 200;
-    SDL_Rect rectangle2;
-    rectangle2.x = 50;
-    rectangle2.y = 75;
-    rectangle2.w = 200;
-    rectangle2.h = 200;
-    
-    //cope a texture
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, image);
-    SDL_FreeSurface(image);
-
-    SDL_GLContext context;
-    context = SDL_GL_CreateContext(window);
-
-    gladLoadGLLoader(SDL_GL_GetProcAddress);
-
-    //update window
-    SDL_UpdateWindowSurface(window);
-
-    const Uint8* state = SDL_GetKeyboardState(NULL);
-    bool isRunning = true;
-    while (isRunning)
-    {
-        glViewport(0, 0, WIDTH, HEIGHT);
-        //retrieve mouse cord
-        int x, y;
-        Uint32 button;
-        button = SDL_GetMouseState(&x, &y);
-        
-        SDL_Event event;
-        while (SDL_PollEvent(&event))
-        {
-            if (event.type == SDL_QUIT) isRunning = false;
-            if (event.type == SDL_MOUSEMOTION)
-            {
-                rectangle2.x = event.motion.x;
-                rectangle2.y = event.motion.y;
-            }
-            if (event.type == SDL_MOUSEBUTTONDOWN)
-            {
-                if (event.button.button == SDL_BUTTON_LEFT)
-                {
-                    SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_ADD);
-                }
-                if (event.button.button == SDL_BUTTON_RIGHT)
-                {
-                    SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
-                }
-                if (event.button.button == SDL_BUTTON_MIDDLE)
-                {
-                    SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_MOD);
-                }
-            }
-            else
-            {
-                SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_NONE);
-            }
-        }
-        //draw sth
-        SDL_RenderClear(renderer);
-        SDL_RenderCopy(renderer, texture, NULL, &rectangle);
-        SDL_RenderCopy(renderer, texture, NULL, &rectangle2);
-        SDL_RenderPresent(renderer);
-    }
-    SDL_DestroyTexture(texture);
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    SDL_Quit();*/
     return 0;
 }
+
+
+
+
+/*/
+#include "SDL.h"
+#include <math.h>
+#include <utility>
+using namespace std;
+
+const int WINDOW_WIDTH = 800;
+const int WINDOW_HEIGHT = 600;
+const int SQUARE_SIZE = 50;
+const int SQUARE_VELOCITY = 1;
+
+bool checkCollision(SDL_Rect square1, SDL_Rect square2) {
+    if (square1.x < square2.x + square2.w &&
+        square1.x + square1.w > square2.x &&
+        square1.y < square2.y + square2.h &&
+        square1.y + square1.h > square2.y) {
+        return true;
+    }
+    return false;
+}
+
+int main(int argc, char* argv[]) {
+    // Initialize SDL
+    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+        SDL_Log("Failed to initialize SDL: %s", SDL_GetError());
+        return 1;
+    }
+
+    // Create a window
+    SDL_Window* window = SDL_CreateWindow("Collision Detection", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+        WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
+    if (window == nullptr) {
+        SDL_Log("Failed to create window: %s", SDL_GetError());
+        SDL_Quit();
+        return 1;
+    }
+
+    // Create a renderer
+    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    if (renderer == nullptr) {
+        SDL_Log("Failed to create renderer: %s", SDL_GetError());
+        SDL_DestroyWindow(window);
+        SDL_Quit();
+        return 1;
+    }
+
+    // Square position variables
+    int squareX = WINDOW_WIDTH / 2 - SQUARE_SIZE / 2;
+    int squareY = WINDOW_HEIGHT / 2 - SQUARE_SIZE / 2;
+
+    // Ground and wall squares
+    SDL_Rect groundRect = { 0, WINDOW_HEIGHT - SQUARE_SIZE, WINDOW_WIDTH, SQUARE_SIZE };
+    SDL_Rect wallRect = { WINDOW_WIDTH / 2 - SQUARE_SIZE / 2, WINDOW_HEIGHT / 2 - SQUARE_SIZE * 2, SQUARE_SIZE, SQUARE_SIZE * 4 };
+
+    // Game loop
+    bool isRunning = true;
+    SDL_Event event;
+    while (isRunning) {
+        // Event handling
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_QUIT) {
+                isRunning = false;
+            }
+        }
+
+        // Clear the renderer
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_RenderClear(renderer);
+
+        // Draw ground
+        SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+        SDL_RenderFillRect(renderer, &groundRect);
+
+        // Draw wall
+        SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+        SDL_RenderFillRect(renderer, &wallRect);
+
+        // Move square with arrow keys
+        const Uint8* keystates = SDL_GetKeyboardState(nullptr);
+        int deltaX = 0;
+        int deltaY = 0;
+        if (keystates[SDL_SCANCODE_UP])
+            deltaY -= SQUARE_VELOCITY;
+        if (keystates[SDL_SCANCODE_DOWN])
+            deltaY += SQUARE_VELOCITY;
+        if (keystates[SDL_SCANCODE_LEFT])
+            deltaX -= SQUARE_VELOCITY;
+        if (keystates[SDL_SCANCODE_RIGHT])
+            deltaX += SQUARE_VELOCITY;
+
+        // Update square position
+        SDL_Rect movingSquareRect = { squareX + deltaX, squareY + deltaY, SQUARE_SIZE, SQUARE_SIZE };
+
+        // Check collision with wall
+        if (checkCollision(movingSquareRect, wallRect)) {
+            // Resolve collision by adjusting the delta values
+            if (deltaX > 0) // Moving right
+                deltaX = wallRect.x - (squareX + SQUARE_SIZE);
+            else if (deltaX < 0) // Moving left
+                deltaX = (wallRect.x + wallRect.w) - squareX;
+            if (deltaY > 0) // Moving down
+                deltaY = wallRect.y - (squareY + SQUARE_SIZE);
+            else if (deltaY < 0) // Moving up
+                deltaY = (wallRect.y + wallRect.h) - squareY;
+        }
+
+        // Update square position based on resolved delta values
+        squareX += deltaX;
+        squareY += deltaY;
+
+        // Draw moving square
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+        SDL_Rect movingSquare = { squareX, squareY, SQUARE_SIZE, SQUARE_SIZE };
+        SDL_RenderFillRect(renderer, &movingSquare);
+
+        // Present the renderer
+        SDL_RenderPresent(renderer);
+    }
+
+    // Cleanup
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+
+    return 0;
+}*/
+

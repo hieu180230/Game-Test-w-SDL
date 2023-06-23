@@ -5,6 +5,7 @@ using namespace std;
 Game::Game() {};
 Game::~Game() {};
 
+
 void Game::init(const char* title, int xpos, int ypos, int width, int height)
 {
 	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
@@ -71,79 +72,65 @@ void Game::handleEvent()
 
 void Game::update()
 {
+	grounded = false;
 	stringstream ss;
 	Vector2D PlayerPos = player.getComponent<TransformComponent>().position;
+
+
 	ss << "Player: " << PlayerPos;
 	label.getComponent<UILabel>().setLabelText(ss.str(), "arial");
 
 	manager.refresh();
 	manager.update();
+	/*
 	SDL_Rect playerCollider = player.getComponent<Collider>().collide;
-	char direction;
+	
+	for (auto& c : colliders)
+	{
+		SDL_Rect cCollider = c->getComponent<Collider>().collide;
+		if (Collision::isCollide(playerCollider, cCollider))
+		{
+			player.getComponent<TransformComponent>().position = PlayerPos;
+		}
+	}*/
+
+	SDL_Rect playerCollider = player.getComponent<Collider>().collide;
+
+	bool canMoveX = true;
+	bool canMoveY = true;
 
 	for (auto& c : colliders)
 	{
 		SDL_Rect cCollider = c->getComponent<Collider>().collide;
-		if (Collision::isCollide(playerCollider, cCollider, direction))
+
+		// Check for collision in the x-axis
+		SDL_Rect xCheckCollider = playerCollider;
+		xCheckCollider.x += player.getComponent<TransformComponent>().velocity.x;
+
+		if (Collision::isCollide(xCheckCollider, cCollider))
 		{
-			if (direction == 'r' && player.getComponent<TransformComponent>().velocity.x == 1)
-			{
-				player.getComponent<TransformComponent>().position.x -= 4;
-				for (auto& b : colliders)
-				{
-					SDL_Rect bCollider = b->getComponent<Collider>().collide;
-					if (Collision::isCollide(playerCollider, bCollider, direction))
-					{
-						if (direction == 'd' && player.getComponent<TransformComponent>().velocity.y == 1)
-						{
-							player.getComponent<TransformComponent>().position.y -= 4;
-							break;
-						}
-					}
-				}
-				break;
-			}
-			if (direction == 'l' && player.getComponent<TransformComponent>().velocity.x == -1)
-			{
-				player.getComponent<TransformComponent>().position.x += 4;
-				for (auto& b : colliders)
-				{
-					SDL_Rect bCollider = b->getComponent<Collider>().collide;
-					if (Collision::isCollide(playerCollider, bCollider, direction))
-					{
-						if (direction == 'd' && player.getComponent<TransformComponent>().velocity.y == 1)
-						{
-							player.getComponent<TransformComponent>().position.y -= 4;
-							break;
-						}
-					}
-				}
-				break;
-			}
-			if (direction == 'd' && player.getComponent<TransformComponent>().velocity.y == 1)
-			{
-				player.getComponent<TransformComponent>().position.y -= 4;
-				for (auto& b : colliders)
-				{
-					SDL_Rect bCollider = b->getComponent<Collider>().collide;
-					if (Collision::isCollide(playerCollider, bCollider, direction))
-					{
-						if (direction == 'r' && player.getComponent<TransformComponent>().velocity.x == 1)
-						{
-							player.getComponent<TransformComponent>().position.x -= 4;
-							break;
-						}
-						if (direction == 'l' && player.getComponent<TransformComponent>().velocity.x == -1)
-						{
-							player.getComponent<TransformComponent>().position.x += 4;
-							break;
-						}
-					}
-				}
-				break;
-			}
+			canMoveX = false;
+		}
+
+		// Check for collision in the y-axis
+		SDL_Rect yCheckCollider = playerCollider;
+		yCheckCollider.y += player.getComponent<TransformComponent>().velocity.y;
+
+		if (Collision::isCollide(yCheckCollider, cCollider))
+		{
+			canMoveY = false;
+			grounded = true;
+		}
+
+		// If both axes have collision, exit the loop
+		if (!canMoveX && !canMoveY)
+		{
+			break;
 		}
 	}
+
+	if (!canMoveX) player.getComponent<TransformComponent>().velocity.x = 0;
+	if (!canMoveY) player.getComponent<TransformComponent>().velocity.y = 0;
 
 	/*for (auto& p : projectiles)
 	{
