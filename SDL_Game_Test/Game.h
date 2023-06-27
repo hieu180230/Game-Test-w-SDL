@@ -52,6 +52,7 @@ public:
 		groupMap,
 		groupPlayers,
 		groupColliders,
+		groupActivate,
 		groupProjectile
 	};
 

@@ -106,5 +106,8 @@
     <ClInclude Include="Variables.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Entity&amp;Component\Activater.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

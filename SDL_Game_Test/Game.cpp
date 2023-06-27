@@ -39,7 +39,9 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height)
 	assets->addFont("arial", "resource/arial.ttf", 24);
 
 	maps = new Map("terrain", 1, 32);
-	maps->mapLoad("resource/map.map", 40,23);
+	maps->mapLoad("resource/map1.map", 40,23);
+	maps->interactiveMapLoad("resource/interactiveBlock.map", 40, 23, 1);
+
 
 	player.addComponent<TransformComponent>(1);
 	player.addComponent<SpriteComponent>("player", true);
@@ -72,7 +74,6 @@ void Game::handleEvent()
 
 void Game::update()
 {
-	grounded = false;
 	stringstream ss;
 	Vector2D PlayerPos = player.getComponent<TransformComponent>().position;
 
@@ -82,55 +83,8 @@ void Game::update()
 
 	manager.refresh();
 	manager.update();
-	/*
-	SDL_Rect playerCollider = player.getComponent<Collider>().collide;
-	
-	for (auto& c : colliders)
-	{
-		SDL_Rect cCollider = c->getComponent<Collider>().collide;
-		if (Collision::isCollide(playerCollider, cCollider))
-		{
-			player.getComponent<TransformComponent>().position = PlayerPos;
-		}
-	}*/
-
-	SDL_Rect playerCollider = player.getComponent<Collider>().collide;
-
-	bool canMoveX = true;
-	bool canMoveY = true;
-
-	for (auto& c : colliders)
-	{
-		SDL_Rect cCollider = c->getComponent<Collider>().collide;
-
-		// Check for collision in the x-axis
-		SDL_Rect xCheckCollider = playerCollider;
-		xCheckCollider.x += player.getComponent<TransformComponent>().velocity.x;
-
-		if (Collision::isCollide(xCheckCollider, cCollider))
-		{
-			canMoveX = false;
-		}
-
-		// Check for collision in the y-axis
-		SDL_Rect yCheckCollider = playerCollider;
-		yCheckCollider.y += player.getComponent<TransformComponent>().velocity.y;
-
-		if (Collision::isCollide(yCheckCollider, cCollider))
-		{
-			canMoveY = false;
-			grounded = true;
-		}
-
-		// If both axes have collision, exit the loop
-		if (!canMoveX && !canMoveY)
-		{
-			break;
-		}
-	}
-
-	if (!canMoveX) player.getComponent<TransformComponent>().velocity.x = 0;
-	if (!canMoveY) player.getComponent<TransformComponent>().velocity.y = 0;
+	//collide handle
+	Collision::collisionResolve(player, colliders);
 
 	/*for (auto& p : projectiles)
 	{
@@ -189,6 +143,11 @@ void Game::render()
 	for (auto& p : projectiles)
 	{
 		p->draw();
+	}
+
+	for (auto& a : activaters)
+	{
+		a->draw();
 	}
 
 	label.draw();

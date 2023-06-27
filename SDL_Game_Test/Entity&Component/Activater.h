@@ -4,16 +4,9 @@
 #include "Components.h"
 #include "../TextureManage.h"
 
-/*Collider is a subclass of component class
-- collide variable is to store the size of the colliding texture
-- tag variable is to manage the type of a texture
-- tex variable is to store texture from a file
-- srcR and destR are to store the size of the source texture size and destination texture size and to scalling
-- */
-
-class Collider : public Component
+class Activater : public Component
 {
-public:	
+public:
 	SDL_Rect collide;
 	string tag;
 
@@ -23,13 +16,13 @@ public:
 	TransformComponent* transform;
 
 	//assign a tag to an object
-	Collider(string t)
+	Activater(string t)
 	{
 		tag = t;
 	}
 
 	//assign a tag, position (x, y) and size in pixel to an object
-	Collider(string t, int xpos, int ypos, int size)
+	Activater(string t, int xpos, int ypos, int size)
 	{
 		tag = t;
 		collide.x = xpos;
@@ -48,10 +41,10 @@ public:
 		}
 		transform = &entity->getComponent<TransformComponent>(); //get the desire component to make it a collider
 
-		tex = TextureManage::LoadTexture("resource//collide_texture.png");//load the texture
+		tex = TextureManage::LoadTexture("resource//activate_texture.png");//load the texture
 		srcR = { 0,0,32,32 };//get full texture of the png file
 		destR = { collide.x, collide.y, collide.w, collide.h };//create a rectangle to store the texture and scale it
-		
+
 	}
 
 	void update() override

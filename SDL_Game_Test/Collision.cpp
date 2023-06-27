@@ -19,3 +19,43 @@ bool Collision::isCollide(Collider& colA, const Collider& colB)
 	return false;
 }
 
+void Collision::collisionResolve(Entity& player, vector<Entity*> colliders)
+{
+	SDL_Rect playerCollider = player.getComponent<Collider>().collide;
+
+	bool canMoveX = true;
+	bool canMoveY = true;
+
+	for (auto& c : colliders)
+	{
+		SDL_Rect cCollider = c->getComponent<Collider>().collide;
+
+		// Check for collision in the x-axis
+		SDL_Rect xCheckCollider = playerCollider;
+		xCheckCollider.x += player.getComponent<TransformComponent>().velocity.x;
+
+		if (Collision::isCollide(xCheckCollider, cCollider))
+		{
+			canMoveX = false;
+		}
+
+		// Check for collision in the y-axis
+		SDL_Rect yCheckCollider = playerCollider;
+		yCheckCollider.y += player.getComponent<TransformComponent>().velocity.y;
+
+		if (Collision::isCollide(yCheckCollider, cCollider))
+		{
+			canMoveY = false;
+		}
+
+		// If both axes have collision, exit the loop
+		if (!canMoveX && !canMoveY)
+		{
+			break;
+		}
+	}
+
+	if (!canMoveX) player.getComponent<TransformComponent>().velocity.x = 0;
+	if (!canMoveY) player.getComponent<TransformComponent>().velocity.y = 0;
+}
+
