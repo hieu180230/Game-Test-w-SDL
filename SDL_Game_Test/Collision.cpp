@@ -22,6 +22,7 @@ bool Collision::isCollide(Collider& colA, const Collider& colB)
 void Collision::collisionResolve(Entity& player, vector<Entity*> colliders)
 {
 	SDL_Rect playerCollider = player.getComponent<Collider>().collide;
+	Vector2D PlayerPos = player.getComponent<TransformComponent>().position;
 
 	bool canMoveX = true;
 	bool canMoveY = true;
@@ -37,6 +38,7 @@ void Collision::collisionResolve(Entity& player, vector<Entity*> colliders)
 		if (Collision::isCollide(xCheckCollider, cCollider))
 		{
 			canMoveX = false;
+			player.getComponent<TransformComponent>().position = PlayerPos;
 		}
 
 		// Check for collision in the y-axis
@@ -45,6 +47,7 @@ void Collision::collisionResolve(Entity& player, vector<Entity*> colliders)
 
 		if (Collision::isCollide(yCheckCollider, cCollider))
 		{
+			player.getComponent<TransformComponent>().position = PlayerPos;
 			canMoveY = false;
 		}
 

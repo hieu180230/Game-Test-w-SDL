@@ -86,7 +86,19 @@ void Map::interactiveMapLoad(string path, int sizeX, int sizeY, int layer)
 			{
 				auto& tactive(manager.addEntity());
 				tactive.addComponent<Activater>("terrain", x * scaleSize, y * scaleSize, scaleSize);
-				tactive.addGroup(Game::groupActivate);
+				tactive.addGroup(Game::groupActivateDown);
+			}
+			if (tile == '5')
+			{
+				auto& tactive(manager.addEntity());
+				tactive.addComponent<Activater>("terrain", x * scaleSize, y * scaleSize, scaleSize);
+				tactive.addGroup(Game::groupActivateCheck);
+			}
+			if (tile == '8')
+			{
+				auto& tactive(manager.addEntity());
+				tactive.addComponent<Activater>("terrain", x * scaleSize, y * scaleSize, scaleSize);
+				tactive.addGroup(Game::groupActivateUp);
 			}
 			mapFile.ignore();
 		}
@@ -95,12 +107,21 @@ void Map::interactiveMapLoad(string path, int sizeX, int sizeY, int layer)
 	mapFile.close();
 }
 
-void Map::interactiveMapUnload(vector<Entity*> colliders, vector<Entity*> activaters)
+void Map::interactiveMapUnload(vector<Entity*> colliders, vector<Entity*> activatersUp, vector<Entity*> activatersDown, vector<Entity*> activatersCheck)
 {
-	for (auto& a : activaters)
+	for (auto& a : activatersUp)
 	{
 		a->destroy();
 	}
+	for (auto& a : activatersDown)
+	{
+		a->destroy();
+	}
+	for (auto& a : activatersCheck)
+	{
+		a->destroy();
+	}
+
 	for (auto& c : colliders)
 	{
 		c->destroy();

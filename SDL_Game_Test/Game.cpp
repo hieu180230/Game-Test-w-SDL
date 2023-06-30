@@ -75,9 +75,9 @@ void Game::handleEvent()
 void Game::update()
 {
 	stringstream ss;
+	int playerZ = 1;
+
 	Vector2D PlayerPos = player.getComponent<TransformComponent>().position;
-
-
 	ss << "Player: " << PlayerPos;
 	label.getComponent<UILabel>().setLabelText(ss.str(), "arial");
 
@@ -85,6 +85,11 @@ void Game::update()
 	manager.update();
 	//collide handle
 	Collision::collisionResolve(player, colliders);
+	if (Activation::activationResolve(player, activatersUp, activatersDown, activatersCheck, playerZ))
+	{
+		maps->interactiveMapUnload(colliders, activatersUp, activatersDown, activatersCheck);
+		maps->interactiveMapLoad("resource/interactiveBlock.map", 40, 23, playerZ);
+	}
 
 	/*for (auto& p : projectiles)
 	{
@@ -145,7 +150,15 @@ void Game::render()
 		p->draw();
 	}
 
-	for (auto& a : activaters)
+	for (auto& a : activatersUp)
+	{
+		a->draw();
+	}
+	for (auto& a : activatersDown)
+	{
+		a->draw();
+	}
+	for (auto& a : activatersCheck)
 	{
 		a->draw();
 	}

@@ -16,7 +16,7 @@ public:
 
 	void mapLoad(string path, int sizeX, int sizeY);
 	void interactiveMapLoad(string path, int sizeX, int sizeY, int layer);
-	void interactiveMapUnload(vector<Entity*> colliders, vector<Entity*> activaters);
+	void interactiveMapUnload(vector<Entity*> colliders, vector<Entity*> activatersUp, vector<Entity*> activatersDown, vector<Entity*> activatersCheck);
 
 	void addTile(int srcX, int srcY, int x, int y);
 

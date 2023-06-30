@@ -5,9 +5,11 @@
 #include "Vector2D.h"
 #include "Map.h"
 #include "Collision.h"
+#include "Activation.h"
 #include <vector>
 #include "sstream"
 
+int layer = 1;
 float gravAccel = 0.25;
 float gravMax = 1.5;
 bool grounded = false;
@@ -28,4 +30,7 @@ auto& tiles(manager.getGroup(Game::groupMap));
 auto& players(manager.getGroup(Game::groupPlayers));
 auto& colliders(manager.getGroup(Game::groupColliders));
 auto& projectiles(manager.getGroup(Game::groupProjectile));
-auto& activaters(manager.getGroup(Game::groupActivate));
+
+auto& activatersUp(manager.getGroup(Game::groupActivateUp));
+auto& activatersDown(manager.getGroup(Game::groupActivateDown));
+auto& activatersCheck(manager.getGroup(Game::groupActivateCheck));
