@@ -27,19 +27,25 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height)
 	}
 	else isRunning = false;
 
+
 	if (TTF_Init() == -1)
 	{
 		cout << "Error TTF" << endl;
 	}
 
 	assets->addTexture("terrain", "resource/mapTile.png");
+	assets->addTexture("props", "resource/props.png");
 	assets->addTexture("player", "resource//ProgTest.png");
 	assets->addTexture("projectile", "resource/bullet.png");
 	assets->addFont("anders", "resource/Anders.ttf", 24);
 	assets->addFont("arial", "resource/arial.ttf", 24);
 
 	maps = new Map("terrain", 1, 32);
+	propmaps = new Map("props", 1, 32);
+
 	maps->mapLoad("resource/map1.map", 40,23);
+	propmaps->mapLoad("resource/propmap.map", 40, 23);
+
 	maps->interactiveMapLoad("resource/interactiveBlock.map", 40, 23, 1);
 
 
@@ -74,6 +80,7 @@ void Game::handleEvent()
 
 void Game::update()
 {
+
 	stringstream ss;
 	int playerZ = 1;
 
@@ -129,22 +136,24 @@ void Game::update()
 void Game::render()
 {
 	SDL_RenderClear(renderer);
+
 	// add texture
 	for (auto& t : tiles)
 	{
 		t->draw();
 	}
-
-	for (auto& c : colliders)
-	{
-		c->draw();
-	}
-
 	for (auto& t : players)
 	{
 		t->draw();
 	}
-
+	for (auto& d : decors)
+	{
+		d->draw();
+	}
+	for (auto& c : colliders)
+	{
+		c->draw();
+	}
 	for (auto& p : projectiles)
 	{
 		p->draw();

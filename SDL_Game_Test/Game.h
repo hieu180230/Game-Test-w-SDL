@@ -55,7 +55,8 @@ public:
 		groupActivateUp,
 		groupActivateDown,
 		groupActivateCheck,
-		groupProjectile
+		groupProjectile,
+		groupDecor
 	};
 
 

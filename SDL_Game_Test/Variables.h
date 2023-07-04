@@ -16,6 +16,7 @@ bool grounded = false;
 
 Manager manager;
 Map* maps;
+Map* propmaps;
 
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
@@ -27,6 +28,7 @@ auto& player(manager.addEntity());
 auto& label(manager.addEntity());
 
 auto& tiles(manager.getGroup(Game::groupMap));
+auto& decors(manager.getGroup(Game::groupDecor));
 auto& players(manager.getGroup(Game::groupPlayers));
 auto& colliders(manager.getGroup(Game::groupColliders));
 auto& projectiles(manager.getGroup(Game::groupProjectile));

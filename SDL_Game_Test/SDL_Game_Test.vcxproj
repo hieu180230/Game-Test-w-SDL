@@ -83,12 +83,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>E:\SDL2-2.26.5\SDL2_image-2.0.1\include;C:\Users\Dell\source\repos\SDL_Game_Test\SDL_Game_Test\SDL2_ttf-2.20.2\include;C:\Users\Dell\source\repos\SDL_Game_Test\SDL_Game_Test\glad\include;;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Dell\source\repos\SDL_Game_Test\SDL_Game_Test\tinyxml;E:\SDL2-2.26.5\SDL2_image-2.0.1\include;C:\Users\Dell\source\repos\SDL_Game_Test\SDL_Game_Test\SDL2_ttf-2.20.2\include;C:\Users\Dell\source\repos\SDL_Game_Test\SDL_Game_Test\glad\include;;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>E:\SDL2-2.26.5\SDL2_image-2.0.1\lib\x64;C:\Users\Dell\source\repos\SDL_Game_Test\SDL_Game_Test\SDL2_ttf-2.20.2\lib;;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\Dell\source\repos\SDL_Game_Test\SDL_Game_Test\tinyxml;E:\SDL2-2.26.5\SDL2_image-2.0.1\lib\x64;C:\Users\Dell\source\repos\SDL_Game_Test\SDL_Game_Test\SDL2_ttf-2.20.2\lib;;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -113,12 +113,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>E:\SDL2-2.26.5\SDL2_image-2.0.1\include;C:\Users\Dell\source\repos\SDL_Game_Test\SDL_Game_Test\SDL2_ttf-2.20.2\include;C:\Users\Dell\source\repos\SDL_Game_Test\SDL_Game_Test\glad\include;C:\Users\Dell\source\repos\SDL_Game_Test\SDL_Game_Test\SDL2_ttf-2.20.2\include;E:\SDL2-2.26.5\SDL2_image-2.0.1\include;C:\Users\Dell\source\repos\SDL_Game_Test\SDL_Game_Test\glad\include;%(AdditionalIncludeDirectories);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Dell\source\repos\SDL_Game_Test\SDL_Game_Test\tinyxml;E:\SDL2-2.26.5\SDL2_image-2.0.1\include;C:\Users\Dell\source\repos\SDL_Game_Test\SDL_Game_Test\SDL2_ttf-2.20.2\include;C:\Users\Dell\source\repos\SDL_Game_Test\SDL_Game_Test\glad\include;C:\Users\Dell\source\repos\SDL_Game_Test\SDL_Game_Test\SDL2_ttf-2.20.2\include;E:\SDL2-2.26.5\SDL2_image-2.0.1\include;C:\Users\Dell\source\repos\SDL_Game_Test\SDL_Game_Test\glad\include;%(AdditionalIncludeDirectories);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>E:\SDL2-2.26.5\SDL2_image-2.0.1\lib\x64;C:\Users\Dell\source\repos\SDL_Game_Test\SDL_Game_Test\SDL2_ttf-2.20.2\lib;C:\Users\Dell\source\repos\SDL_Game_Test\SDL_Game_Test\SDL2_ttf-2.20.2\lib;E:\SDL2-2.26.5\SDL2_image-2.0.1\lib\x64;%(AdditionalLibraryDirectories);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\Dell\source\repos\SDL_Game_Test\SDL_Game_Test\tinyxml;E:\SDL2-2.26.5\SDL2_image-2.0.1\lib\x64;C:\Users\Dell\source\repos\SDL_Game_Test\SDL_Game_Test\SDL2_ttf-2.20.2\lib;C:\Users\Dell\source\repos\SDL_Game_Test\SDL_Game_Test\SDL2_ttf-2.20.2\lib;E:\SDL2-2.26.5\SDL2_image-2.0.1\lib\x64;%(AdditionalLibraryDirectories);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

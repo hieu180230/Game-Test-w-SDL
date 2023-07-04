@@ -132,6 +132,7 @@ void Map::addTile(int srcX, int srcY, int x, int y)
 {
 	auto& tile(manager.addEntity());
 	tile.addComponent<TileComponent>(srcX, srcY, x, y, tileSize, mapScale, textureId);
-	tile.addGroup(Game::groupMap);
+	if (textureId == "terrain") tile.addGroup(Game::groupMap);
+	if (textureId == "props") tile.addGroup(Game::groupDecor);
 }
 
