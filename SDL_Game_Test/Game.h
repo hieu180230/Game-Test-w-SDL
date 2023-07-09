@@ -49,14 +49,14 @@ public:
 
 	enum groupLabel : size_t
 	{
-		groupMap,
+		groupMapAbove,
 		groupPlayers,
 		groupColliders,
 		groupActivateUp,
 		groupActivateDown,
 		groupActivateCheck,
 		groupProjectile,
-		groupDecor
+		groupMapBelow
 	};
 
 

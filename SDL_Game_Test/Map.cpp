@@ -7,7 +7,7 @@
 
 extern Manager manager;
 
-Map::Map(string id, int mapScale, int tileSize) : textureId(id), mapScale(mapScale), tileSize(tileSize)
+Map::Map(AssetManager* a, int mapScale, int tileSize, string mapState) : assets(a), mapScale(mapScale), tileSize(tileSize), state(mapState)
 {
 	scaleSize = tileSize * mapScale;
 }
@@ -18,36 +18,46 @@ Map::~Map()
 
 void Map::mapLoad(string path, int sizeX, int sizeY)
 {
-	char layer;
-	char tile, tile1;
-	fstream mapFile;
-	mapFile.open(path);
+	TiXmlDocument doc;
+	doc.LoadFile(path);
+	TiXmlElement* root = doc.RootElement();
+	TiXmlElement* layers = NULL;
+	int layerCount = stoi(root->Attribute("nextlayerid")) - 1;
 
-	mapFile.get(layer);
-	mapFile.ignore();
-	int count = atoi(&layer);
-	while (count > 0)
+	for (TiXmlElement* i = root->FirstChildElement(); i != NULL; i = i->NextSiblingElement())
 	{
-		int srcX, srcY;
-		for (int y = 0; y < sizeY; y++)
+		if (i->Value() == string("tileset"))
 		{
-			for (int x = 0; x < sizeX; x++)
-			{
-				mapFile.get(tile);
-				mapFile.get(tile1);
-				srcY = (atoi(&tile) * 10 + atoi(&tile1)) * tileSize;
-				mapFile.get(tile);
-				srcX = atoi(&tile) * tileSize;
-				addTile(srcX, srcY, x * tileSize * mapScale, y * tileSize * mapScale);
-				mapFile.ignore();
-			}
-			mapFile.ignore();
+			assets->addTexture(i->Attribute("firstgid"), i->FirstChildElement()->Attribute("source"), true);
+			int lastgid = stoi(i->Attribute("tilecount")) + stoi(i->Attribute("firstgid")) - 1;
+			assets->addTextureId(stoi(i->Attribute("firstgid")), lastgid);
 		}
-		mapFile.ignore();
-		count--;
+		else
+		{
+			layers = i;
+			break;
+		}
+	}
+	while (layerCount > 0)
+	{
+		string matrix(layers->FirstChildElement()->GetText()), tileId;
+		istringstream iss(matrix);
+		for (int i = 0; i < sizeY; i++)
+		{
+			for (int j = 0; j < sizeX; j++)
+			{
+				getline(iss, tileId, ',');
+				if (tileId.length() > 1 && tileId[0] == ' ')  tileId.erase(tileId.begin());
+				if (tileId == "0" || tileId==" 0") tileId = "79";
+				int srcX = stoi(tileId) % 10 * tileSize;
+				int srcY = stoi(tileId) / 10 * tileSize;
+				addTile(srcX, srcY, j * tileSize * mapScale, i * tileSize * mapScale);
+			}
+		}
+		layers = layers->NextSiblingElement();
+		layerCount--;
 	}
 
-	mapFile.close();
 }
 
 void Map::interactiveMapLoad(string path, int sizeX, int sizeY, int layer)
@@ -131,8 +141,8 @@ void Map::interactiveMapUnload(vector<Entity*> colliders, vector<Entity*> activa
 void Map::addTile(int srcX, int srcY, int x, int y)
 {
 	auto& tile(manager.addEntity());
-	tile.addComponent<TileComponent>(srcX, srcY, x, y, tileSize, mapScale, textureId);
-	if (textureId == "terrain") tile.addGroup(Game::groupMap);
-	if (textureId == "props") tile.addGroup(Game::groupDecor);
+	tile.addComponent<TileComponent>(srcX, srcY, x, y, tileSize, mapScale);
+	if (state == "above") tile.addGroup(Game::groupMapAbove);
+	if (state == "below") tile.addGroup(Game::groupMapBelow);
 }
 

@@ -33,20 +33,14 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height)
 		cout << "Error TTF" << endl;
 	}
 
-	assets->addTexture("terrain", "resource/mapTile.png");
-	assets->addTexture("props", "resource/props.png");
-	assets->addTexture("player", "resource//ProgTest.png");
-	assets->addTexture("projectile", "resource/bullet.png");
+	assets->addTexture("player", "resource//ProgTest.png", false);
+	assets->addTexture("projectile", "resource/bullet.png", false);
 	assets->addFont("anders", "resource/Anders.ttf", 24);
 	assets->addFont("arial", "resource/arial.ttf", 24);
 
-	maps = new Map("terrain", 1, 32);
-	propmaps = new Map("props", 1, 32);
-
-	maps->mapLoad("resource/map1.map", 40,23);
-	propmaps->mapLoad("resource/propmap.map", 40, 23);
-
-	maps->interactiveMapLoad("resource/interactiveBlock.map", 40, 23, 1);
+	mapsBelow = new Map(assets, 1, 32, "below");
+	mapsBelow->mapLoad("resource/map/map.xml", 40,23);
+	mapsBelow->interactiveMapLoad("resource/interactiveBlock.map", 40, 23, 1);
 
 
 	player.addComponent<TransformComponent>(1);
@@ -94,8 +88,8 @@ void Game::update()
 	Collision::collisionResolve(player, colliders);
 	if (Activation::activationResolve(player, activatersUp, activatersDown, activatersCheck, playerZ))
 	{
-		maps->interactiveMapUnload(colliders, activatersUp, activatersDown, activatersCheck);
-		maps->interactiveMapLoad("resource/interactiveBlock.map", 40, 23, playerZ);
+		mapsBelow->interactiveMapUnload(colliders, activatersUp, activatersDown, activatersCheck);
+		mapsBelow->interactiveMapLoad("resource/interactiveBlock.map", 40, 23, playerZ);
 	}
 
 	/*for (auto& p : projectiles)
@@ -138,17 +132,13 @@ void Game::render()
 	SDL_RenderClear(renderer);
 
 	// add texture
-	for (auto& t : tiles)
+	for (auto& t : tilesBelow)
 	{
 		t->draw();
 	}
 	for (auto& t : players)
 	{
 		t->draw();
-	}
-	for (auto& d : decors)
-	{
-		d->draw();
 	}
 	for (auto& c : colliders)
 	{

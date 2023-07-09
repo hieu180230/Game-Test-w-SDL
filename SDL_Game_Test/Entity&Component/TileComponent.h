@@ -4,6 +4,8 @@
 #include "../Game.h"
 #include "../TextureManage.h"
 #include "SDL.h"
+using namespace std;
+#include <iostream>
 
 class TileComponent : public Component
 {
@@ -20,13 +22,23 @@ public:
 		SDL_DestroyTexture(texture);
 	}
 
-	TileComponent(int srcX, int srcY, int x, int y, int tileSize, int tileScale, string textureId)
+	TileComponent(int srcX, int srcY, int x, int y, int tileSize, int tileScale)
 	{
-		texture = Game::assets->getTexture(textureId);
-
+		map<string, SDL_Texture*> textures = Game::assets->getTextureMap();
 		position.x = x;
 		position.y = y;
-
+		int tileId = (srcX / tileSize) + (srcY / tileSize * 10);
+		for (auto i : textures)
+		{
+			if (stoi(i.first) <= tileId && tileId <= Game::assets->getTextureLastId(stoi(i.first)))
+			{
+				texture = i.second;
+				tileId = tileId - stoi(i.first);
+				srcX = tileId % 10 * tileSize;
+				srcY = tileId / 10 * tileSize;
+				break;
+			}
+		}
 		srcR.x = srcX;
 		srcR.y = srcY;
 		srcR.w = srcR.h = tileSize;

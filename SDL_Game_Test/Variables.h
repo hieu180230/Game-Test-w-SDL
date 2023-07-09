@@ -15,8 +15,8 @@ float gravMax = 1.5;
 bool grounded = false;
 
 Manager manager;
-Map* maps;
-Map* propmaps;
+Map* mapsAbove;
+Map* mapsBelow;
 
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
@@ -27,8 +27,9 @@ bool Game::isRunning = false;
 auto& player(manager.addEntity());
 auto& label(manager.addEntity());
 
-auto& tiles(manager.getGroup(Game::groupMap));
-auto& decors(manager.getGroup(Game::groupDecor));
+auto& tilesAbove(manager.getGroup(Game::groupMapAbove));
+auto& tilesBelow(manager.getGroup(Game::groupMapBelow));
+
 auto& players(manager.getGroup(Game::groupPlayers));
 auto& colliders(manager.getGroup(Game::groupColliders));
 auto& projectiles(manager.getGroup(Game::groupProjectile));

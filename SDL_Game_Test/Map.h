@@ -2,16 +2,18 @@
 #include "Game.h"
 #include <string>
 #include "Entity&Component/Entity&Component.h"
+#include "tinyxml.h"
 
 class Map
 {
 private:
-	string textureId;
 	int mapScale;
 	int tileSize;
 	int scaleSize;
+	AssetManager* assets;
+	string state;
 public:
-	Map(string id, int mapScale, int tileSize);
+	Map(AssetManager* a, int mapScale, int tileSize, string mapState);
 	~Map();
 
 	void mapLoad(string path, int sizeX, int sizeY);
