@@ -20,7 +20,7 @@ Map* mapsBelow;
 
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
-SDL_Rect Game::camera = { 0,0,640,480 };
+SDL_Rect Game::camera = { 0,0,WIDTH,HEIGHT - 280 };
 AssetManager* Game::assets = new AssetManager(&manager);
 bool Game::isRunning = false;
 

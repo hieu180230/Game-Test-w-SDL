@@ -35,7 +35,7 @@ public:
 	static bool isRunning;
 	Game();
 	~Game();
-	void init(const char* title, int xpos, int ypos, int width, int height);
+	void init();
 
 	void handleEvent();
 	void update();

@@ -6,28 +6,9 @@ Game::Game() {};
 Game::~Game() {};
 
 
-void Game::init(const char* title, int xpos, int ypos, int width, int height)
+void Game::init()
 {
-	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
-	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
-	{
-		window = SDL_CreateWindow(title, xpos, ypos, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
-		if (window)
-		{
-			cout << "Window init!" << endl;
-		}
-		renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-		if (renderer)
-		{
-			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-			cout << "Renderer init!" << endl;
-		}
-		isRunning = true;
-
-	}
-	else isRunning = false;
-
-
+	
 	if (TTF_Init() == -1)
 	{
 		cout << "Error TTF" << endl;
@@ -37,10 +18,14 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height)
 	assets->addTexture("projectile", "resource/bullet.png", false);
 	assets->addFont("anders", "resource/Anders.ttf", 24);
 	assets->addFont("arial", "resource/arial.ttf", 24);
+	assets->addFont("comic", "resource/comic.ttf", 24);
 
 	mapsBelow = new Map(assets, 1, 32, "below");
-	mapsBelow->mapLoad("resource/map/map.xml", 40,23);
+	mapsBelow->mapLoad("resource/map/belowMap.xml", 40,23);
 	mapsBelow->interactiveMapLoad("resource/interactiveBlock.map", 40, 23, 1);
+
+	mapsAbove = new Map(assets, 1, 32, "above");
+	mapsAbove->mapLoad("resource/map/aboveMap.xml", 40, 23);
 
 
 	player.addComponent<TransformComponent>(1);
@@ -51,7 +36,8 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height)
 
 
 	SDL_Color white = { 255,255,255,255 };
-	label.addComponent<UILabel>(10, 10, "FontTest", "arial", white);
+	label.addComponent<UILabel>(100, 100, "FontTest", "comic", white);
+	label.getComponent<UILabel>().setLabelText("ss.str()", "comic");
 
 	//assets->createObject(Vector2D(600, 600), Vector2D(2, 0), 200, 2, "projectile");
 }
@@ -80,7 +66,6 @@ void Game::update()
 
 	Vector2D PlayerPos = player.getComponent<TransformComponent>().position;
 	ss << "Player: " << PlayerPos;
-	label.getComponent<UILabel>().setLabelText(ss.str(), "arial");
 
 	manager.refresh();
 	manager.update();
@@ -106,8 +91,8 @@ void Game::update()
 	if (player.getComponent<TransformComponent>().position.y > 1430) player.getComponent<TransformComponent>().position.y = -60;
 	if (player.getComponent<TransformComponent>().position.y < -60) player.getComponent<TransformComponent>().position.y = 1430;
 
-	camera.x = player.getComponent<TransformComponent>().position.x - 320;
-	camera.y = player.getComponent<TransformComponent>().position.y - 240;
+	camera.x = player.getComponent<TransformComponent>().position.x - WIDTH/2;
+	camera.y = player.getComponent<TransformComponent>().position.y - HEIGHT/2;
 
 	if (camera.x < 0)
 	{
@@ -137,6 +122,10 @@ void Game::render()
 		t->draw();
 	}
 	for (auto& t : players)
+	{
+		t->draw();
+	}
+	for (auto& t : tilesAbove)
 	{
 		t->draw();
 	}

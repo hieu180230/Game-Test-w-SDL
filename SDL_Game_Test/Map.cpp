@@ -31,7 +31,6 @@ void Map::mapLoad(string path, int sizeX, int sizeY)
 			assets->addTexture(i->Attribute("firstgid"), i->FirstChildElement()->Attribute("source"), true);
 			int lastgid = stoi(i->Attribute("tilecount")) + stoi(i->Attribute("firstgid")) - 1;
 			assets->addTextureId(stoi(i->Attribute("firstgid")), lastgid);
-			cout << i->FirstChildElement()->Attribute("source") << " ";
 		}
 		else
 		{
@@ -56,6 +55,7 @@ void Map::mapLoad(string path, int sizeX, int sizeY)
 			}
 		}
 		layers = layers->NextSiblingElement();
+		cout << "next" << endl;
 		layerCount--;
 	}
 
