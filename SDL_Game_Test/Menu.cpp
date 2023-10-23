@@ -35,6 +35,11 @@ void Menu::handleEvent()
 		choice = (choice == 1 ? 3 : (choice + 1));
 		break;
 	}
+	case SDL_KEYDOWN:
+	{
+		choice = (choice == 3 ? 1 : (choice - 1));
+		break;
+	}
 	case SDL_QUIT:
 	{
 		Game::isRunning = false;
