@@ -1,6 +1,7 @@
 #include "Menu.h"
+#include "Variables.h"
 
-Menu::Menu() {}
+Menu::Menu(){}
 Menu::~Menu(){}
 
 void Menu::init(const char* title, int xpos, int ypos, int width, int height)
@@ -23,6 +24,10 @@ void Menu::init(const char* title, int xpos, int ypos, int width, int height)
 
 	}
 	else Game::isRunning = false;
+
+	Game::assets->addTexture("button1", "resource/gui/button1.png", false);
+	buttons.addComponent<SpriteComponent>("button1", true);
+	buttons.addComponent<Button>(100, 100);
 }
 
 void Menu::handleEvent()
@@ -42,8 +47,19 @@ void Menu::handleEvent()
 	}
 	case SDL_QUIT:
 	{
+		Menu::menu_start = false;
 		Game::isRunning = false;
 		break;
 	}
 	}
+}
+
+void Menu::update()
+{
+
+}
+
+void Menu::render()
+{
+
 }

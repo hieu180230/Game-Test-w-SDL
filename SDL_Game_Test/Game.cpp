@@ -16,6 +16,7 @@ void Game::init()
 
 	assets->addTexture("player", "resource//ProgTest.png", false);
 	assets->addTexture("projectile", "resource/bullet.png", false);
+	assets->addTexture("button", "resource/button.png", false);
 	assets->addFont("anders", "resource/Anders.ttf", 24);
 	assets->addFont("arial", "resource/arial.ttf", 24);
 	assets->addFont("comic", "resource/comic.ttf", 24);

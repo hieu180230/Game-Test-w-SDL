@@ -419,6 +419,9 @@
     <ClInclude Include="deps\includes\SDL2-2.26.5\SDL_vulkan.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Entity&amp;Component\Button.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="deps\libs\SDL2_image-2.0.1\SDL2_image.lib" />

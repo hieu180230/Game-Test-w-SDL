@@ -14,6 +14,20 @@ int main(int argc, char* argv[])
     Uint32 frameStart;
     int frameTime;
     menu.init("Testing", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT);
+    while (Menu::menu_start)
+    {
+        frameStart = SDL_GetTicks();
+
+        menu.handleEvent();
+        menu.update();
+        menu.render();
+
+        frameTime = SDL_GetTicks() - frameStart;
+        if (frameDelay > frameTime)
+        {
+            SDL_Delay(frameDelay - frameTime);
+        }
+    }
     game.init();
     while (game.running())
     {

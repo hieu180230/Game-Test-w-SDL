@@ -264,6 +264,7 @@
     <ClInclude Include="deps\includes\tinyxml\tinyxml.h" />
     <ClInclude Include="Entity&amp;Component\Activater.h" />
     <ClInclude Include="Entity&amp;Component\Animation.h" />
+    <ClInclude Include="Entity&amp;Component\Button.h" />
     <ClInclude Include="Entity&amp;Component\Collider.h" />
     <ClInclude Include="Entity&amp;Component\Components.h" />
     <ClInclude Include="Entity&amp;Component\Entity&amp;Component.h" />

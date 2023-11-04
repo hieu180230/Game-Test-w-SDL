@@ -12,7 +12,9 @@ private:
 	SDL_Window* window;
 	int choice = 1;
 	SDL_Event event;
+	
 public:
+	static bool menu_start;
 	Menu();
 	~Menu();
 
