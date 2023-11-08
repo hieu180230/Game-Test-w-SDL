@@ -17,24 +17,29 @@ class AssetManager;
 
 class Game
 {
-private:
-
-	SDL_Window* window;
 
 public:
+	int menu_choice = 1;
+	SDL_Window* window;
 	static SDL_Rect camera;
 	static AssetManager* assets;
 
 	static bool isRunning;
+	inline static bool menu_start = false;
 	Game();
 	~Game();
-	void init();
+	void init(const char* title, int xpos, int ypos, int width, int height);
 
 	void handleEvent();
 	void update();
 	void render();
 	void clean();
 	bool running();
+
+	void menu_handleEvent();
+	void menu_update();
+	void menu_render();
+	bool menu_running() { return menu_start; }
 
 
 	static SDL_Renderer* renderer;
@@ -49,7 +54,8 @@ public:
 		groupActivateDown,
 		groupActivateCheck,
 		groupProjectile,
-		groupMapBelow
+		groupMapBelow,
+		groupButtons
 	};
 
 

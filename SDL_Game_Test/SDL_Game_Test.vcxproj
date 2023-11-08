@@ -155,7 +155,6 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
-    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="TextureManage.cpp" />
     <ClCompile Include="Vector2D.cpp" />
@@ -276,7 +275,6 @@
     <ClInclude Include="Entity&amp;Component\UILabel.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Map.h" />
-    <ClInclude Include="Menu.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="TextureManage.h" />
     <ClInclude Include="Variables.h" />

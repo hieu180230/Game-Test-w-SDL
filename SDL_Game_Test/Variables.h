@@ -6,7 +6,6 @@
 #include "Map.h"
 #include "Collision.h"
 #include "Activation.h"
-#include "Menu.h"
 #include <vector>
 #include "sstream"
 
@@ -25,12 +24,10 @@ SDL_Rect Game::camera = { 0,0,WIDTH,HEIGHT - 280 };
 AssetManager* Game::assets = new AssetManager(&manager);
 bool Game::isRunning = false;
 
-bool Menu::menu_start = true;
-
 auto& player(manager.addEntity());
 auto& label(manager.addEntity());
 auto& gui_label(manager.addEntity());
-auto& buttons(manager.addEntity());
+auto& button(manager.addEntity());
 
 auto& tilesAbove(manager.getGroup(Game::groupMapAbove));
 auto& tilesBelow(manager.getGroup(Game::groupMapBelow));
@@ -38,6 +35,8 @@ auto& tilesBelow(manager.getGroup(Game::groupMapBelow));
 auto& players(manager.getGroup(Game::groupPlayers));
 auto& colliders(manager.getGroup(Game::groupColliders));
 auto& projectiles(manager.getGroup(Game::groupProjectile));
+
+auto& buttons(manager.getGroup(Game::groupButtons));
 
 auto& activatersUp(manager.getGroup(Game::groupActivateUp));
 auto& activatersDown(manager.getGroup(Game::groupActivateDown));

@@ -1,4 +1,5 @@
 #include "Variables.h"
+#include "Game.h"
 
 using namespace std;
 
@@ -6,9 +7,33 @@ Game::Game() {};
 Game::~Game() {};
 
 
-void Game::init()
+void Game::init(const char* title, int xpos, int ypos, int width, int height)
 {
-	
+	menu_choice = 1;
+	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
+	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
+	{
+		window = SDL_CreateWindow(title, xpos, ypos, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+		if (window)
+		{
+			cout << "Window init!" << endl;
+		}
+		renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+		if (renderer)
+		{
+			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+			cout << "Renderer init!" << endl;
+		}
+		isRunning = true;
+		menu_start = true;
+
+	}
+	else 
+	{
+		menu_start = false;
+		isRunning = false;
+	}
+
 	if (TTF_Init() == -1)
 	{
 		cout << "Error TTF" << endl;
@@ -16,7 +41,7 @@ void Game::init()
 
 	assets->addTexture("player", "resource//ProgTest.png", false);
 	assets->addTexture("projectile", "resource/bullet.png", false);
-	assets->addTexture("button", "resource/button.png", false);
+	assets->addTexture("button1", "resource/gui/buttons.png", false);
 	assets->addFont("anders", "resource/Anders.ttf", 24);
 	assets->addFont("arial", "resource/arial.ttf", 24);
 	assets->addFont("comic", "resource/comic.ttf", 24);
@@ -35,9 +60,13 @@ void Game::init()
 	player.addComponent<Collider>("player");
 	player.addGroup(groupPlayers);
 
+	button.addComponent<TransformComponent>(100, 100, 32, 48, 3);
+	button.addComponent<Button>("button1");
+	button.addGroup(Game::groupButtons);
 
 	SDL_Color white = { 255,255,255,255 };
-	label.addComponent<UILabel>(100, 100, "FontTest", "comic", white);
+	SDL_Color black = { 0,0,0,255 };
+	label.addComponent<UILabel>(100, 100, "FontTest", "comic", black);
 	label.getComponent<UILabel>().setLabelText("ss.str()", "comic");
 
 	//assets->createObject(Vector2D(600, 600), Vector2D(2, 0), 200, 2, "projectile");
@@ -152,7 +181,6 @@ void Game::render()
 		a->draw();
 	}
 
-	label.draw();
 	SDL_RenderPresent(renderer);
 }
 
@@ -169,4 +197,45 @@ void Game::clean()
 bool Game::running()
 {
 	return isRunning;
+}
+
+void Game::menu_handleEvent()
+{
+	SDL_PollEvent(&Game::event);
+	switch (Game::event.type)
+	{
+	case SDL_KEYUP:
+	{
+		menu_choice = (menu_choice == 1 ? 3 : (menu_choice - 1));
+		break;
+	}
+	case SDL_KEYDOWN:
+	{
+		menu_choice = (menu_choice == 3 ? 1 : (menu_choice + 1));
+		break;
+	}
+	case SDL_QUIT:
+	{
+		menu_start = false;
+		isRunning = false;
+		break;
+	}
+	}
+}
+
+void Game::menu_update()
+{
+	manager.refresh();
+	manager.update();
+}
+
+void Game::menu_render()
+{
+	SDL_RenderClear(renderer);
+	for (auto& b : buttons)
+	{
+		b->draw();
+	}
+	label.draw();
+	SDL_RenderPresent(renderer);
 }
