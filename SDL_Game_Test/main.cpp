@@ -1,9 +1,10 @@
 #include "Game.h"
+#include "Menu.h"
 using namespace std;
 
 
 Game game;
-
+Menu menu;
 
 int main(int argc, char* argv[])
 {
@@ -12,14 +13,15 @@ int main(int argc, char* argv[])
     const int frameDelay = 1000 / FPS;
     Uint32 frameStart;
     int frameTime;
-    game.init("Testing", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT);
-    while (game.menu_running())
+    menu.init("Testing", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT);
+    game.init();
+    while (menu.running())
     {
         frameStart = SDL_GetTicks();
 
-        game.menu_handleEvent();
-        game.menu_update();
-        game.menu_render();
+        menu.handleEvent();
+        menu.update();
+        menu.render();
 
         frameTime = SDL_GetTicks() - frameStart;
         if (frameDelay > frameTime)

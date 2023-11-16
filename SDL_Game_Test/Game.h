@@ -19,16 +19,16 @@ class Game
 {
 
 public:
-	int menu_choice = 1;
+	
 	SDL_Window* window;
 	static SDL_Rect camera;
 	static AssetManager* assets;
 
 	static bool isRunning;
-	inline static bool menu_start = false;
+	
 	Game();
 	~Game();
-	void init(const char* title, int xpos, int ypos, int width, int height);
+	void init();
 
 	void handleEvent();
 	void update();
@@ -36,12 +36,7 @@ public:
 	void clean();
 	bool running();
 
-	void menu_handleEvent();
-	void menu_update();
-	void menu_render();
-	bool menu_running() { return menu_start; }
-
-
+	
 	static SDL_Renderer* renderer;
 	static SDL_Event event;
 

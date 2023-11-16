@@ -27,7 +27,6 @@ bool Game::isRunning = false;
 auto& player(manager.addEntity());
 auto& label(manager.addEntity());
 auto& gui_label(manager.addEntity());
-auto& button(manager.addEntity());
 
 auto& tilesAbove(manager.getGroup(Game::groupMapAbove));
 auto& tilesBelow(manager.getGroup(Game::groupMapBelow));
@@ -35,8 +34,6 @@ auto& tilesBelow(manager.getGroup(Game::groupMapBelow));
 auto& players(manager.getGroup(Game::groupPlayers));
 auto& colliders(manager.getGroup(Game::groupColliders));
 auto& projectiles(manager.getGroup(Game::groupProjectile));
-
-auto& buttons(manager.getGroup(Game::groupButtons));
 
 auto& activatersUp(manager.getGroup(Game::groupActivateUp));
 auto& activatersDown(manager.getGroup(Game::groupActivateDown));
