@@ -1,8 +1,8 @@
 #pragma once
 #include<string>
 #include "SDL.h"
-#include "Components.h"
 #include "../TextureManage.h"
+#include "Components.h"
 
 /*Collider is a subclass of component class
 - collide variable is to store the size of the colliding texture
@@ -10,6 +10,7 @@
 - tex variable is to store texture from a file
 - srcR and destR are to store the size of the source texture size and destination texture size and to scalling
 - */
+
 
 class Collider : public Component
 {

@@ -27,9 +27,9 @@ void Game::init()
 
 
 	player.addComponent<TransformComponent>(1);
-	player.addComponent<SpriteComponent>("player", true);
-	player.addComponent<Control>();
+	player.addComponent<SpriteComponent>("player", true, false, false);
 	player.addComponent<Collider>("player");
+	player.addComponent<Control>();
 	player.addGroup(groupPlayers);
 
 	

@@ -1,26 +1,24 @@
 #pragma once
-
-#include "../Game.h"
-#include "Entity&Component.h"
-#include "Components.h"
 #include "../Collision.h"
 #include "Collider.h"
-#include "../Collision.h"
+#include "Components.h"
 
+class Collider;
 
 class Control : public Component
 {
 public:
 	TransformComponent* transform;
 	SpriteComponent* sprite;
-	Collider* collide;
+	Collider* collider;
 
 	void init() override
 	{
 		sprite = &entity->getComponent<SpriteComponent>();
 		transform = &entity->getComponent<TransformComponent>();
-		collide = &entity->getComponent<Collider>();
+		collider = &entity->getComponent<Collider>();
 	}
+
 
 	void update() override
 	{
@@ -49,6 +47,7 @@ public:
 			}
 			case SDLK_LEFT:  case SDLK_a:
 			{
+
 				transform->velocity.x = -1;
 				sprite->play("Walk");
 				sprite->spriteFlip = SDL_FLIP_HORIZONTAL;

@@ -1,8 +1,13 @@
 #include "Menu.h"
 extern Manager manager;
-auto& buttons(manager.getGroup(Game::groupButtons));
-auto& button1(manager.addEntity());
-auto& button2(manager.addEntity());
+auto& main_buttons(manager.getGroup(Game::groupMenu));
+auto& start_button(manager.addEntity());
+auto& setting_button(manager.addEntity());
+auto& quit_button(manager.addEntity());
+
+auto& setting_buttons(manager.getGroup(Game::groupSetting));
+auto& mute_music(manager.addEntity());
+auto& mute_vfx(manager.addEntity());
 
 void Menu::init(const char* title, int xpos, int ypos, int width, int height)
 {
@@ -22,7 +27,6 @@ void Menu::init(const char* title, int xpos, int ypos, int width, int height)
 		}
 		Game::isRunning = true;
 		menu_start = true;
-
 	}
 	else
 	{
@@ -30,34 +34,76 @@ void Menu::init(const char* title, int xpos, int ypos, int width, int height)
 		Game::isRunning = false;
 	}
 	menu_choice = 1;
-	Game::assets->addTexture("button1", "resource/gui/buttons.png", false);
+	Game::assets->addTexture("button1", "resource/gui/buttons1.png", false);
 
-	Game::assets->addFont("anders", "resource/Anders.ttf", 24);
-	Game::assets->addFont("arial", "resource/arial.ttf", 24);
-	Game::assets->addFont("comic", "resource/comic.ttf", 24);
+	//Game::assets->addFont("anders", "resource/Anders.ttf", 24);
+	//Game::assets->addFont("arial", "resource/arial.ttf", 24);
+	//Game::assets->addFont("comic", "resource/comic.ttf", 24);
 	
-	button1.addComponent<TransformComponent>(280, 100, 32, 48, 2);
-	button1.addComponent<Button>("button1");
-	button1.addGroup(Game::groupButtons);
+	start_button.addComponent<TransformComponent>(280, 100, 64, 96, 1);
+	start_button.addComponent<Button>("button1", 0);
+	start_button.addGroup(Game::groupMenu);
 
-	button1.addComponent<TransformComponent>(280, 200, 32, 48, 2);
-	button1.addComponent<Button>("button1");
-	button1.addGroup(Game::groupButtons);
+	setting_button.addComponent<TransformComponent>(280, 200, 64, 96, 1);
+	setting_button.addComponent<Button>("button1", 1);
+	setting_button.addGroup(Game::groupMenu);
+
+	quit_button.addComponent<TransformComponent>(280, 300, 64, 96, 1);
+	quit_button.addComponent<Button>("button1", 2);
+	quit_button.addGroup(Game::groupMenu);
+
+	
 }
 
 void Menu::handleEvent()
 {
+	SDL_GetMouseState(&mousePosition.x, &mousePosition.y);
 	SDL_PollEvent(&Game::event);
 	switch (Game::event.type)
 	{
-	case SDL_KEYUP:
+	case SDL_MOUSEBUTTONDOWN:
 	{
-		menu_choice = (menu_choice == 1 ? 3 : (menu_choice - 1));
+		if (Game::event.button.button == SDL_BUTTON_LEFT)
+		{
+			if (SDL_PointInRect(&mousePosition, start_button.getComponent<Button>().getRect()))
+			{
+				start_button.getComponent<Button>().clicked(true);
+				cout << "Click1" << endl;
+				menu_start = false;
+			}
+			else if (SDL_PointInRect(&mousePosition, setting_button.getComponent<Button>().getRect()))
+			{
+				setting_button.getComponent<Button>().clicked(true);
+				cout << "Click2" << endl;
+			}
+			else if (SDL_PointInRect(&mousePosition, quit_button.getComponent<Button>().getRect()))
+			{
+				quit_button.getComponent<Button>().clicked(true);
+				cout << "Click3" << endl;
+				menu_start = false;
+				Game::isRunning = false;
+			}
+		}
+		break;
+	}
+	case SDL_MOUSEBUTTONUP:
+	{
+		if (Game::event.button.button == SDL_BUTTON_LEFT)
+		{
+			for (auto& b : main_buttons)
+			{
+				b->getComponent<Button>().clicked(false);
+			}
+		}
 		break;
 	}
 	case SDL_KEYDOWN:
 	{
-		menu_choice = (menu_choice == 3 ? 1 : (menu_choice + 1));
+		switch (Game::event.key.keysym.sym)
+		{
+		case SDLK_UP:  menu_choice = (menu_choice == 1 ? 3 : (menu_choice - 1)); break;
+		case SDLK_DOWN: menu_choice = menu_choice = (menu_choice == 3 ? 1 : (menu_choice + 1)); break;
+		}
 		break;
 	}
 	case SDL_QUIT:
@@ -71,6 +117,7 @@ void Menu::handleEvent()
 
 void Menu::update()
 {
+	
 	manager.refresh();
 	manager.update();
 }
@@ -78,9 +125,16 @@ void Menu::update()
 void Menu::render()
 {
 	SDL_RenderClear(Game::renderer);
-	for (auto& b : buttons)
+	for (auto& b : main_buttons)
 	{
 		b->draw();
 	}
 	SDL_RenderPresent(Game::renderer);
+}
+
+
+
+void showSetting()
+{
+	
 }

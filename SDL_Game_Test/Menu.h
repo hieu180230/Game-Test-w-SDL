@@ -14,6 +14,7 @@ class AssetManager;
 
 class Menu {
 public:
+	SDL_Point mousePosition;
 	SDL_Window* window;
 	int menu_choice = 1;
 	inline static bool menu_start = false;
@@ -22,9 +23,11 @@ public:
 	~Menu() {};
 	void init(const char* title, int xpos, int ypos, int width, int height);
 	
-
+	
 	void handleEvent();
 	void update();
 	void render();
 	bool running() { return menu_start; }
+
+	void showSetting();
 };

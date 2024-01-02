@@ -12,7 +12,7 @@ using namespace std;
 const int WIDTH = 640;
 const int HEIGHT = 480;
 
-class Collider;
+
 class AssetManager;
 
 class Game
@@ -50,7 +50,8 @@ public:
 		groupActivateCheck,
 		groupProjectile,
 		groupMapBelow,
-		groupButtons
+		groupMenu,
+		groupSetting
 	};
 
 

@@ -14,10 +14,12 @@ private:
 	SDL_Texture* texture;
 	SDL_Rect srcR, destR;
 
+	bool object = false;
+	bool vertical = false;
+
 	bool animated = false;
 	int frames = 0;
 	int speed = 100;
-
 public:
 
 	int aniIndex = 0;
@@ -32,18 +34,30 @@ public:
 		setTexture(id);
 	}
 
-	SpriteComponent(string id, bool isAnimated)
+	SpriteComponent(string id, bool isAnimated, bool isObject, bool isVertical)
 	{
 		animated = isAnimated;
+		object = isObject;
+		vertical = isVertical;
+		
+		if (!object)
+		{
+			Animation idle = Animation(0, 2, 200);
+			animations.emplace("Idle", idle);
 
-		Animation idle = Animation(0, 2, 200);
-		animations.emplace("Idle", idle);
+			Animation walk = Animation(3, 8, 200);
+			animations.emplace("Walk", walk);
 
-		Animation walk = Animation(3, 8, 200);
-		animations.emplace("Walk", walk);
+			play("Idle");
+		}
+		else
+		{
+			Animation turn_on = Animation(0, 4, 200);
+			animations.emplace("Turn_on", turn_on);
 
-
-		play("Idle");
+			Animation turn_off = Animation(1, 4, 200);
+			animations.emplace("Turn_off", turn_off);
+		}
 		setTexture(id);
 	}
 
@@ -69,16 +83,33 @@ public:
 
 	void update() override
 	{
-
-		if (animated)
+		if (!vertical)
 		{
-			srcR.x = srcR.w * static_cast<int>((SDL_GetTicks() / speed) % frames);
+			if (animated)
+			{
+				srcR.x = srcR.w * static_cast<int>((SDL_GetTicks() / speed) % frames);
+			}
+			srcR.y = aniIndex * transform->height;
+		}
+		else
+		{
+			if (animated)
+			{
+				srcR.y = srcR.h * static_cast<int>((SDL_GetTicks() / speed) % frames);
+			}
+			srcR.x = aniIndex * transform->width;
 		}
 
-		srcR.y = aniIndex * transform->height;
-
-		destR.x = static_cast<int>(transform->position.x) - Game::camera.x;
-		destR.y = static_cast<int>(transform->position.y) - Game::camera.y;
+		if (!object)
+		{
+			destR.x = static_cast<int>(transform->position.x) - Game::camera.x;
+			destR.y = static_cast<int>(transform->position.y) - Game::camera.y;
+		}
+		else
+		{
+			destR.x = static_cast<int>(transform->position.x);
+			destR.y = static_cast<int>(transform->position.y);
+		}
 		destR.w = transform->width * transform->scale;
 		destR.h = transform->height * transform->scale;
 	}
