@@ -66,7 +66,6 @@ void Game::update()
 
 	Vector2D PlayerPos = player.getComponent<TransformComponent>().position;
 	ss << "Player: " << PlayerPos;
-
 	manager.refresh();
 	manager.update();
 	//collide handle
