@@ -38,7 +38,7 @@ void Collision::collisionResolve(Entity& player, vector<Entity*> colliders)
 		if (Collision::isCollide(xCheckCollider, cCollider, res))
 		{
 			canMoveX = false;
-			player.getComponent<TransformComponent>().position = PlayerPos;
+			player.getComponent<TransformComponent>().position.x = PlayerPos.x;
 		}
 
 		// Check for collision in the y-axis

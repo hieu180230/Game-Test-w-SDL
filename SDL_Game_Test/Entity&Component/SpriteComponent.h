@@ -26,7 +26,7 @@ public:
 
 	std::map<const char*, Animation> animations;
 
-	SDL_RendererFlip spriteFlip = SDL_FLIP_NONE;
+	SDL_RendererFlip spriteFlip = SDL_FLIP_HORIZONTAL;
 
 	SpriteComponent() = default;
 	SpriteComponent(string id)
@@ -42,10 +42,10 @@ public:
 		
 		if (!object)
 		{
-			Animation idle = Animation(0, 2, 200);
+			Animation idle = Animation(0, 6, 200);
 			animations.emplace("Idle", idle);
 
-			Animation walk = Animation(3, 8, 200);
+			Animation walk = Animation(1, 8, 200);
 			animations.emplace("Walk", walk);
 
 			play("Idle");

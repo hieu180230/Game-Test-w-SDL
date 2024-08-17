@@ -15,23 +15,22 @@ void Game::init()
 		cout << "Error TTF" << endl;
 	}
 
-	assets->addTexture("player", "resource//ProgTest.png", false);
+	assets->addTexture("player", "resource//hornet.png", false);
 	assets->addTexture("projectile", "resource/bullet.png", false);
 
 	mapsBelow = new Map(assets, 1, 32, "below");
-	mapsBelow->mapLoad("resource/map/belowMap.xml", 40,23);
+	mapsBelow->mapLoad("resource/map/belowMap.xml", 40, 23);
 	mapsBelow->interactiveMapLoad("resource/interactiveBlock.map", 40, 23, 1);
 
 	mapsAbove = new Map(assets, 1, 32, "above");
 	mapsAbove->mapLoad("resource/map/aboveMap.xml", 40, 23);
 
 
-	player.addComponent<TransformComponent>(1);
+	player.addComponent<TransformComponent>(0.5);
 	player.addComponent<SpriteComponent>("player", true, false, false);
-	player.addComponent<Collider>("player");
+	player.addComponent<Collider>("player", 50, 31, 50, 104);
 	player.addComponent<Control>();
 	player.addGroup(groupPlayers);
-
 	
 	
 	SDL_Color white = { 255,255,255,255 };
