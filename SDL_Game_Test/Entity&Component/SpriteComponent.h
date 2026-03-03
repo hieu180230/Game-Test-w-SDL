@@ -15,7 +15,6 @@ private:
 	SDL_Rect srcR, destR;
 
 	bool object = false;
-	bool vertical = false;
 
 	bool animated = false;
 	int frames = 0;
@@ -26,7 +25,7 @@ public:
 
 	std::map<const char*, Animation> animations;
 
-	SDL_RendererFlip spriteFlip = SDL_FLIP_HORIZONTAL;
+	SDL_RendererFlip spriteFlip = SDL_FLIP_NONE;
 
 	SpriteComponent() = default;
 	SpriteComponent(string id)
@@ -34,18 +33,17 @@ public:
 		setTexture(id);
 	}
 
-	SpriteComponent(string id, bool isAnimated, bool isObject, bool isVertical)
+	SpriteComponent(string id, bool isAnimated, bool isObject)
 	{
 		animated = isAnimated;
 		object = isObject;
-		vertical = isVertical;
 		
 		if (!object)
 		{
-			Animation idle = Animation(0, 6, 200);
+			Animation idle = Animation(1, 8, 50);
 			animations.emplace("Idle", idle);
 
-			Animation walk = Animation(1, 8, 200);
+			Animation walk = Animation(0, 11, 100);
 			animations.emplace("Walk", walk);
 
 			play("Idle");
@@ -75,31 +73,20 @@ public:
 	{
 		transform = &entity->getComponent<TransformComponent>();
 		
-		srcR.x = srcR.y = 0;
 		srcR.w = transform->width;
 		srcR.h = transform->height;
+		srcR.x = 0;
+		srcR.y = 0;
 
 	}
 
 	void update() override
 	{
-		if (!vertical)
+		if (animated) 
 		{
-			if (animated)
-			{
-				srcR.x = srcR.w * static_cast<int>((SDL_GetTicks() / speed) % frames);
-			}
-			srcR.y = aniIndex * transform->height;
+			srcR.x = srcR.w * static_cast<int>((SDL_GetTicks() / speed) % frames);
 		}
-		else
-		{
-			if (animated)
-			{
-				srcR.y = srcR.h * static_cast<int>((SDL_GetTicks() / speed) % frames);
-			}
-			srcR.x = aniIndex * transform->width;
-		}
-
+		srcR.y = transform->height * aniIndex;
 		if (!object)
 		{
 			destR.x = static_cast<int>(transform->position.x) - Game::camera.x;

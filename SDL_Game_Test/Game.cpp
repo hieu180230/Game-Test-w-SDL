@@ -15,20 +15,20 @@ void Game::init()
 		cout << "Error TTF" << endl;
 	}
 
-	assets->addTexture("player", "resource//hornet.png", false);
+	assets->addTexture("player", "resource//warrior.png", false);
 	assets->addTexture("projectile", "resource/bullet.png", false);
 
 	mapsBelow = new Map(assets, 1, 32, "below");
 	mapsBelow->mapLoad("resource/map/belowMap.xml", 40, 23);
-	mapsBelow->interactiveMapLoad("resource/interactiveBlock.map", 40, 23, 1);
+	//mapsBelow->interactiveMapLoad("resource/interactiveBlock.map", 40, 23, 1);
 
-	mapsAbove = new Map(assets, 1, 32, "above");
-	mapsAbove->mapLoad("resource/map/aboveMap.xml", 40, 23);
+	//mapsAbove = new Map(assets, 1, 32, "above");
+	//mapsAbove->mapLoad("resource/map/aboveMap.xml", 40, 23);
 
 
-	player.addComponent<TransformComponent>(0.5);
-	player.addComponent<SpriteComponent>("player", true, false, false);
-	player.addComponent<Collider>("player", 50, 31, 50, 104);
+	player.addComponent<TransformComponent>(50, 31, 38, 38, 1.5);
+	player.addComponent<SpriteComponent>("player", true, false);
+	player.addComponent<Collider>("player", 0, 0, 38);
 	player.addComponent<Control>();
 	player.addGroup(groupPlayers);
 	
@@ -69,11 +69,11 @@ void Game::update()
 	manager.update();
 	//collide handle
 	Collision::collisionResolve(player, colliders);
-	if (Activation::activationResolve(player, activatersUp, activatersDown, activatersCheck, playerZ))
+	/*if (Activation::activationResolve(player, activatersUp, activatersDown, activatersCheck, playerZ))
 	{
 		mapsBelow->interactiveMapUnload(colliders, activatersUp, activatersDown, activatersCheck);
 		mapsBelow->interactiveMapLoad("resource/interactiveBlock.map", 40, 23, playerZ);
-	}
+	}*/
 
 	/*for (auto& p : projectiles)
 	{
@@ -123,10 +123,10 @@ void Game::render()
 	{
 		t->draw();
 	}
-	for (auto& t : tilesAbove)
+	/*for (auto& t : tilesAbove)
 	{
 		t->draw();
-	}
+	}*/
 	for (auto& c : colliders)
 	{
 		c->draw();
@@ -136,7 +136,7 @@ void Game::render()
 		p->draw();
 	}
 
-	for (auto& a : activatersUp)
+	/*for (auto& a : activatersUp)
 	{
 		a->draw();
 	}
@@ -147,7 +147,7 @@ void Game::render()
 	for (auto& a : activatersCheck)
 	{
 		a->draw();
-	}
+	}*/
 
 	SDL_RenderPresent(renderer);
 }

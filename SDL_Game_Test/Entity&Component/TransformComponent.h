@@ -11,8 +11,8 @@ public:
 
 	int speed = 4;
 
-	float height = 168;
-	float width = 269;
+	float height = 32;
+	float width = 32;
 	float scale = 1.0;
 
 	TransformComponent()
