@@ -61,83 +61,83 @@ void Map::mapLoad(string path, int sizeX, int sizeY)
 
 }
 
-void Map::interactiveMapLoad(string path, int sizeX, int sizeY, int layer)
-{
-	char tile;
-	fstream mapFile;
-	mapFile.open(path);
-	int count = 1;
-	while (count < layer)
-	{
-		for (int y = 0; y < sizeY; y++)
-		{
-			for (int x = 0; x < sizeX; x++)
-			{
-				mapFile.get(tile);
-				mapFile.ignore();
-			}
-			mapFile.ignore();
-		}
-		mapFile.ignore();
-		count++;
-	}
-
-	for (int y = 0; y < sizeY; y++)
-	{
-		for (int x = 0; x < sizeX; x++)
-		{
-			mapFile.get(tile);
-			if (tile == '1')
-			{
-				auto& tcol(manager.addEntity());
-				tcol.addComponent<Collider>("terrain", x * scaleSize, y * scaleSize, scaleSize);
-				tcol.addGroup(Game::groupColliders);
-			}
-			if (tile == '2')
-			{
-				auto& tactive(manager.addEntity());
-				tactive.addComponent<Activater>("terrain", x * scaleSize, y * scaleSize, scaleSize);
-				tactive.addGroup(Game::groupActivateDown);
-			}
-			if (tile == '5')
-			{
-				auto& tactive(manager.addEntity());
-				tactive.addComponent<Activater>("terrain", x * scaleSize, y * scaleSize, scaleSize);
-				tactive.addGroup(Game::groupActivateCheck);
-			}
-			if (tile == '8')
-			{
-				auto& tactive(manager.addEntity());
-				tactive.addComponent<Activater>("terrain", x * scaleSize, y * scaleSize, scaleSize);
-				tactive.addGroup(Game::groupActivateUp);
-			}
-			mapFile.ignore();
-		}
-		mapFile.ignore();
-	}
-	mapFile.close();
-}
-
-void Map::interactiveMapUnload(vector<Entity*> colliders, vector<Entity*> activatersUp, vector<Entity*> activatersDown, vector<Entity*> activatersCheck)
-{
-	for (auto& a : activatersUp)
-	{
-		a->destroy();
-	}
-	for (auto& a : activatersDown)
-	{
-		a->destroy();
-	}
-	for (auto& a : activatersCheck)
-	{
-		a->destroy();
-	}
-
-	for (auto& c : colliders)
-	{
-		c->destroy();
-	}
-}
+//void Map::interactiveMapLoad(string path, int sizeX, int sizeY, int layer)
+//{
+//	char tile;
+//	fstream mapFile;
+//	mapFile.open(path);
+//	int count = 1;
+//	while (count < layer)
+//	{
+//		for (int y = 0; y < sizeY; y++)
+//		{
+//			for (int x = 0; x < sizeX; x++)
+//			{
+//				mapFile.get(tile);
+//				mapFile.ignore();
+//			}
+//			mapFile.ignore();
+//		}
+//		mapFile.ignore();
+//		count++;
+//	}
+//
+//	for (int y = 0; y < sizeY; y++)
+//	{
+//		for (int x = 0; x < sizeX; x++)
+//		{
+//			mapFile.get(tile);
+//			if (tile == '1')
+//			{
+//				auto& tcol(manager.addEntity());
+//				tcol.addComponent<Collider>("terrain", x * scaleSize, y * scaleSize, scaleSize);
+//				tcol.addGroup(Game::groupColliders);
+//			}
+//			if (tile == '2')
+//			{
+//				auto& tactive(manager.addEntity());
+//				tactive.addComponent<Activater>("terrain", x * scaleSize, y * scaleSize, scaleSize);
+//				tactive.addGroup(Game::groupActivateDown);
+//			}
+//			if (tile == '5')
+//			{
+//				auto& tactive(manager.addEntity());
+//				tactive.addComponent<Activater>("terrain", x * scaleSize, y * scaleSize, scaleSize);
+//				tactive.addGroup(Game::groupActivateCheck);
+//			}
+//			if (tile == '8')
+//			{
+//				auto& tactive(manager.addEntity());
+//				tactive.addComponent<Activater>("terrain", x * scaleSize, y * scaleSize, scaleSize);
+//				tactive.addGroup(Game::groupActivateUp);
+//			}
+//			mapFile.ignore();
+//		}
+//		mapFile.ignore();
+//	}
+//	mapFile.close();
+//}
+//
+//void Map::interactiveMapUnload(vector<Entity*> colliders, vector<Entity*> activatersUp, vector<Entity*> activatersDown, vector<Entity*> activatersCheck)
+//{
+//	for (auto& a : activatersUp)
+//	{
+//		a->destroy();
+//	}
+//	for (auto& a : activatersDown)
+//	{
+//		a->destroy();
+//	}
+//	for (auto& a : activatersCheck)
+//	{
+//		a->destroy();
+//	}
+//
+//	for (auto& c : colliders)
+//	{
+//		c->destroy();
+//	}
+//}
 
 void Map::addTile(int srcX, int srcY, int x, int y)
 {
