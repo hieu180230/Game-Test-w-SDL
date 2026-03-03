@@ -153,6 +153,9 @@
     <ClCompile Include="deps\includes\tinyxml\tinyxmlparser.cpp" />
     <ClCompile Include="Entity&amp;Component\Entity&amp;Component.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameEntity\Champion.cpp" />
+    <ClCompile Include="GameEntity\Minion.cpp" />
+    <ClCompile Include="GameEntity\Squad.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Menu.cpp" />
@@ -275,6 +278,7 @@
     <ClInclude Include="Entity&amp;Component\SpriteComponent.h" />
     <ClInclude Include="Entity&amp;Component\UILabel.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameEntity\BattleEntity.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Object.h" />
